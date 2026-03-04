@@ -6,7 +6,7 @@
             "amountPerChild": 25.0,
             "status": "open",
             "paid": [
-                3,
+                2, 3,
                 9,
                 10,
                 11, 12,
@@ -22,7 +22,7 @@
             "amountPerChild": 14.0,
             "status": "open",
             "paid": [
-                1,
+                1, 2,
                 3,
                 4,
                 6,
