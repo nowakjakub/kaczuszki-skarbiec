@@ -4,7 +4,7 @@
             "id": "spektakl-2026-03",
             "name": "Spektakl 'Karolcia' do 16.03.2026",
             "amountPerChild": 25.0,
-            "status": "open",
+            "status": "closed",
             "paid": [
                 1, 2,
                 3,
@@ -15,7 +15,7 @@
                 10,
                 11,
                 12, 13,
-                14, 15,
+                14, 15, 16,
                 17,
                 20,
                 21,
