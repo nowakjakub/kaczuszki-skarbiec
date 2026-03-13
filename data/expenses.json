@@ -1,6 +1,11 @@
 {
     "expenses": [
         {
+            "date": "2026-03-13",
+            "what": "Spektakl",
+            "amount": 575,
+            "receipt": ""
+        },{
             "date": "2026-03-11",
             "what": "Kino",
             "amount": 322,
