@@ -1,6 +1,12 @@
 {
     "expenses": [
         {
+            "date": "2026-04-09",
+            "what": "Temperowki",
+            "amount": 17.50,
+            "receipt": "receipts/20260409_154851.jpg"
+        },
+        {
             "date": "2026-04-14",
             "what": "Koziolek Matolek",
             "amount": 375,
