@@ -1,6 +1,17 @@
 {
     "expenses": [
         {
+            "date": "2026-04-14",
+            "what": "Koziolek Matolek",
+            "amount": 375,
+            "receipt": ""
+        },
+        {
+            "date": "2026-04-10",
+            "what": "Warsztaty ze zwierzetami",
+            "amount": 720,
+            "receipt": ""
+        },{
             "date": "2026-03-13",
             "what": "Spektakl",
             "amount": 575,
