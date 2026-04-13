@@ -187,8 +187,8 @@
 
         if (closeEvents.length > 0) {
             const banner = qs('#event-banner');
-            const eventList = closeEvents.map(e => `${escapeHtml(e.title)} (${escapeHtml(e.date)})`).join(', ');
-            const bannerText = `🦆 Nadchodzące wydarzenia: ${eventList}`;
+            const eventList = closeEvents.map(e => `${escapeHtml(e.title)} (${escapeHtml(e.date)})`).join('<br>');
+            const bannerText = `🦆 Nadchodzące wydarzenia 🦆<br>${eventList}`;
             banner.innerHTML = `<strong>${bannerText}</strong>`;
             banner.style.display = 'block';
         }

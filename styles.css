@@ -59,11 +59,19 @@ body {
     font-weight: 500;
     transition: background 0.2s ease;
     margin-bottom: 20px;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .theme-toggle-card:hover {
     background: var(--accent);
     opacity: 0.9;
+}
+
+@media (hover: none) {
+    .theme-toggle-card:hover {
+        background: var(--card);
+        opacity: 1;
+    }
 }
 
 @keyframes pulse-banner {
