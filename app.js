@@ -25,7 +25,6 @@
     const DATA_BASE = './data';
     const DATE_FORMATTER = new Intl.DateTimeFormat('pl-PL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     const PLN = (n) => new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' }).format(n);
-    const TOTAL_CHILDREN_FALLBACK = 25;
 
     // Uniwersalna funkcja pobierająca dane JSON z katalogu data
     const fetchJSON = async (path) => {
@@ -110,16 +109,16 @@
             const rows = openCols.map((c) => {
                 const paid = c.paid.includes(n);
                 return `<li>${escapeHtml(c.name)} — ${paid
-                    ? '<span class="badge ok">✅ opłacono</span>'
-                    : `<span class="badge due">❌ brak wpłaty (${PLN(c.amount)})</span>`
+                    ? '<span class="badge ok">✅ Hurra! Opłacono</span>'
+                    : `<span class="badge due">⏰ Czas zapłacić: ${PLN(c.amount)}</span>`
                     }</li>`;
             });
 
             const totalDue = openCols.reduce((sum, c) => sum + (c.paid.includes(n) ? 0 : c.amount), 0);
             result.innerHTML = `
-                <p><strong>Numer ${n}</strong> — status w otwartych zbiórkach:</p>
+                <p><strong>🎯 Status płatności dla numerka ${n}:</strong></p>
                 <ul class="list">${rows.join('')}</ul>
-                <p class="sum">Razem zaległości: ${totalDue ? PLN(totalDue) : '<span class="badge ok">brak</span>'}</p>
+                <p class="sum">${totalDue ? `💰 Do zapłaty zostało: ${PLN(totalDue)}` : '<span class="badge ok">🎉 Wszystko opłacone! Świetna robota!</span>'}</p>
             `;
         });
     }
@@ -205,7 +204,7 @@
         if (pastEvents.length) {
             html += `
                 <details class="past-events">
-                    <summary>Przeszłe wydarzenia</summary>
+                    <summary>Co już nas spotkało?</summary>
                     ${pastEvents.map(e => renderEvent(e, false)).join('')}
                 </details>`;
         }
@@ -215,7 +214,7 @@
 
     function renderBanking(banking) {
         const bankingBox = qs('#banking-data');
-        const titleTemplate = banking?.transfer_title_template || 'Składka – nr {nr}';
+        const titleTemplate = 'KACZUSZKI - Nazwa zbiórki - {nr}. imię i nazwisko DZIECKA';
         bankingBox.innerHTML = `
             <p><strong>Numer konta:</strong> <span class="copy" data-copy="${escapeAttr(banking?.account_number || '')}">${escapeHtml(banking?.account_number || '')}</span></p>
             <p><strong>BLIK:</strong> <span class="copy" data-copy="${escapeAttr(banking?.blik || '')}">${escapeHtml(banking?.blik || '')}</span></p>
@@ -238,8 +237,7 @@
     // Ładuje dane, przygotowuje obiekty i wyświetla wszystkie sekcje w odpowiedniej kolejności
     async function init() {
         try {
-            const [site, collectionsWrap, incomesWrap, expensesWrap, banking, eventsWrap, informationWrap] = await Promise.all([
-                fetchJSON('site.json'),
+            const [collectionsWrap, incomesWrap, expensesWrap, banking, eventsWrap, informationWrap] = await Promise.all([
                 fetchJSON('collections.json'),
                 fetchJSON('incomes.json'),
                 fetchJSON('expenses.json'),
@@ -248,7 +246,7 @@
                 fetchJSON('information.json'),
             ]);
 
-            const totalChildren = Number(site?.totalChildren ?? TOTAL_CHILDREN_FALLBACK);
+            const totalChildren = 25; // Stała liczba dzieci w grupie
             qs('#site-title').textContent = '🦆 KACZUSZKI 🦆';
             qs('#current-date').textContent = DATE_FORMATTER.format(new Date());
 
