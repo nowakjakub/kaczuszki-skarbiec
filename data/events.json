@@ -1,6 +1,16 @@
 {
     "events": [
         {
+            "date": "2026-05-28",
+            "title": "Dzień Mamy i Taty, 9:30",
+            "description": "W naszej sali odbędzie się uroczystość z okazji Dnia Mamy i Taty. Zapraszamy wszystkich rodziców do wspólnego świętowania z nami!"
+        },
+        {
+            "date": "2026-05-08",
+            "title": "Warsztaty Joga",
+            "description": "Warsztaty Joga, szczegoly na czacie grupy"
+        },
+        {
             "date": "2026-04-28",
             "title": "Warsztaty LEGO",
             "description": "Warsztaty LEGO, szczegoly na czacie grupy"
