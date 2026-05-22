@@ -1,6 +1,14 @@
 {
     "collections": [
         {
+            "name": "Wyjście na kulki w czerwcu",
+            "amountPerChild": 10.0,
+            "status": "open",
+            "paid": [
+                
+            ]
+        },
+        {
             "name": "Materiały na występ",
             "amountPerChild": 5.0,
             "status": "open",
@@ -10,7 +18,7 @@
                 10,
                 14,
                 17,
-                20
+                20,25
             ]
         },
         {
