@@ -1,6 +1,18 @@
 {
     "expenses": [
         {
+            "date": "2026-06-10",
+            "what": "Wyjście na kulki",
+            "amount": 250.00,
+            "receipt": ""
+        },
+        {
+            "date": "2026-06-08",
+            "what": "Warsztaty Joga",
+            "amount": 345.00,
+            "receipt": ""
+        },
+        {
             "date": "2026-05-20",
             "what": "Materiały na występ z okazji dnia mamy i taty",
             "amount": 240.05,
