@@ -1,6 +1,12 @@
 {
     "collections": [
         {
+            "name": "Zakończenie roku",
+            "amountPerChild": 10.0,
+            "status": "open",
+            "paid": [8, 18, 19, 22]
+        },
+        {
             "name": "Wyjście na kulki w czerwcu",
             "amountPerChild": 10.0,
             "status": "closed",
