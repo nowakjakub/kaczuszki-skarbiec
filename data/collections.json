@@ -4,7 +4,7 @@
             "name": "Zakończenie roku",
             "amountPerChild": 10.0,
             "status": "open",
-            "paid": [8, 10, 11, 13, 14, 15, 17, 18, 19, 20, 22, 24, 25]
+            "paid": [8, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 25]
         },
         {
             "name": "Wyjście na kulki w czerwcu",
