@@ -1,6 +1,12 @@
 {
     "expenses": [
         {
+            "date": "2026-06-30",
+            "what": "Kwiaty dla Pań",
+            "amount": 250.00,
+            "receipt": "receipts/20260630_kwiaty.jpg"
+        },
+        {
             "date": "2026-06-10",
             "what": "Wyjście na kulki",
             "amount": 250.00,
