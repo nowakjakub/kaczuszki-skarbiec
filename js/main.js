@@ -5,6 +5,7 @@ import { renderBalance } from './balance.js';
 import { renderExpenses } from './expenses.js';
 import { renderEvents } from './events.js';
 import { renderBanking } from './banking.js';
+import { renderSupplies } from './supplies.js';
 import { setupLookupForm } from './lookup.js';
 
 // Liczba dzieci w grupie — zmień tu jeśli zmieni się skład grupy
@@ -19,12 +20,13 @@ function renderError(err) {
 
 async function init() {
     try {
-        const [collectionsWrap, incomesWrap, expensesWrap, banking, eventsWrap] = await Promise.all([
+        const [collectionsWrap, incomesWrap, expensesWrap, banking, eventsWrap, supplies] = await Promise.all([
             fetchJSON('collections.json'),
             fetchJSON('incomes.json'),
             fetchJSON('expenses.json'),
             fetchJSON('banking.json'),
             fetchJSON('events.json'),
+            fetchJSON('supplies.json'),
         ]);
 
         qs('#site-title').textContent = '🦆 KACZUSZKI 🦆';
@@ -42,6 +44,7 @@ async function init() {
         renderBalance(fromCollections, otherIncome, expenses);
         renderCollections(openCols, closedCols, TOTAL_CHILDREN);
         renderExpenses(expensesWrap);
+        renderSupplies(supplies);
         renderEvents(eventsWrap, new Date());
         renderBanking(banking);
         setupLookupForm(openCols, TOTAL_CHILDREN);
