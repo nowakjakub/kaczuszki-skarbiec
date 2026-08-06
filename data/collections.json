@@ -1,6 +1,12 @@
 {
     "collections": [
         {
+            "name": "Podręczniki 'Bardzo dobry pomysł' WSiP",
+            "amountPerChild": 199.0,
+            "status": "open",
+            "paid": []
+        },
+        {
             "name": "Zakończenie roku",
             "amountPerChild": 10.0,
             "status": "closed",

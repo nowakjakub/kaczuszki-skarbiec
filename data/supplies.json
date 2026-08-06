@@ -1,0 +1,36 @@
+{
+    "title": "Wyprawka",
+    "categories": [
+        {
+            "name": "Przybornik plastyczny",
+            "items": [
+                "1 blok techniczny biały",
+                "1 blok techniczny kolorowy",
+                "1 blok rysunkowy kolorowy",
+                "1 ryza papieru ksero",
+                "piórnik typu tuba",
+                "1 opakowanie kredek ołówkowych",
+                "1 opakowanie grubych kredek (polecamy kredki Bambino)",
+                "2 kleje w sztyfcie Magic",
+                "1 teczka papierowa na prace dziecka",
+                "1 opakowanie plasteliny"
+            ]
+        },
+        {
+            "name": "Strój gimnastyczny",
+            "items": [
+                "koszulka z krótkim rękawem",
+                "spodenki",
+                "woreczek na strój (całość podpisana)"
+            ]
+        },
+        {
+            "name": "Artykuły higieniczne",
+            "items": [
+                "1 opakowanie chusteczek nawilżanych",
+                "1 opakowanie chusteczek higienicznych w pudełku"
+            ]
+        }
+    ],
+    "note": "Prosimy o podpisanie wszystkich przedmiotów imieniem i nazwiskiem dziecka lub jego inicjałami."
+}
