@@ -1,13 +1,13 @@
 {
     "collections": [
         {
-            "name": "Rada rodziców",
+            "name": "Rada rodziców - do 30.09.2026",
             "amountPerChild": 80.0,
             "status": "open",
             "paid": []
         },
         {
-            "name": "Składka grupowa na rok szkolny",
+            "name": "Składka grupowa na rok szkolny - do 30.09.2026",
             "amountPerChild": 50.0,
             "status": "open",
             "paid": []
