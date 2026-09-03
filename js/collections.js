@@ -10,7 +10,10 @@ export function normalizePaidList(rawPaid, totalChildren) {
         .sort((a, b) => a - b);
 }
 
-export function normalizeCollection(col, totalChildren) {
+export function normalizeCollection(col, defaultTotalChildren) {
+    const totalChildren = Number.isInteger(col.totalChildren)
+        ? col.totalChildren
+        : defaultTotalChildren;
     const paid = normalizePaidList(col.paid, totalChildren);
     const amount = Number(col.amountPerChild || 0);
     const paidCount = paid.length;
@@ -25,26 +28,27 @@ export function normalizeCollection(col, totalChildren) {
         unpaidCount: totalChildren - paidCount,
         collected,
         unpaidNumbers,
+        totalChildren,
     };
 }
 
-function renderCollectionCard(c, totalChildren) {
-    const pct = totalChildren ? Math.round((c.paidCount / totalChildren) * 100) : 0;
+function renderCollectionCard(c) {
+    const pct = c.totalChildren ? Math.round((c.paidCount / c.totalChildren) * 100) : 0;
     const statusLabel = c.status === 'open'
         ? '<span class="badge ok">otwarta</span>'
         : '<span class="badge">zamknięta</span>';
     return `
         <div class="collection">
             <h3>${escapeHtml(c.name)} ${statusLabel}</h3>
-            <div class="meta">Składka: <strong>${PLN(c.amount)}</strong> • Opłacone: <strong>${c.paidCount}/${totalChildren}</strong> (${pct}%) • Zebrano: <strong>${PLN(c.collected)}</strong></div>
+            <div class="meta">Składka: <strong>${PLN(c.amount)}</strong> • Opłacone: <strong>${c.paidCount}/${c.totalChildren}</strong> (${pct}%) • Zebrano: <strong>${PLN(c.collected)}</strong></div>
         </div>`;
 }
 
-export function renderCollections(openCols, closedCols, totalChildren) {
+export function renderCollections(openCols, closedCols) {
     qs('#current-list').innerHTML = openCols.length
-        ? openCols.map((c) => renderCollectionCard(c, totalChildren)).join('')
+        ? openCols.map((c) => renderCollectionCard(c)).join('')
         : '<p>Brak otwartych zbiórek.</p>';
     qs('#past-list').innerHTML = closedCols.length
-        ? closedCols.map((c) => renderCollectionCard(c, totalChildren)).join('')
+        ? closedCols.map((c) => renderCollectionCard(c)).join('')
         : '<p>Brak zamkniętych zbiórek.</p>';
 }

@@ -91,7 +91,7 @@ Otwórz: http://localhost:8000
 
 ## 🔧 Konfiguracja
 
-- **Liczba dzieci w grupie**: zmień w `app.js` (`const totalChildren = 25`)
+- **Liczba dzieci w grupie**: zmień `TOTAL_CHILDREN` w `js/main.js`. Zbiórki już zamknięte przed zmianą składu grupy zachowują swoją historyczną liczbę dzięki polu `"totalChildren"` dopisanemu w `data/collections.json` — nie trzeba (i nie należy) ich przeliczać.
 - **Dane bankowe**: edytuj `data/banking.json`
 - **Zbiórki**: edytuj `data/collections.json`
 - **wydarzenia**: edytuj `data/events.json`
