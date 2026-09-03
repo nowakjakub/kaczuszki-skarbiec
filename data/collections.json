@@ -1,6 +1,18 @@
 {
     "collections": [
         {
+            "name": "Rada rodziców",
+            "amountPerChild": 80.0,
+            "status": "open",
+            "paid": []
+        },
+        {
+            "name": "Składka grupowa na rok szkolny",
+            "amountPerChild": 50.0,
+            "status": "open",
+            "paid": []
+        },
+        {
             "name": "Podręczniki 'Bardzo dobry pomysł' WSiP",
             "amountPerChild": 199.0,
             "status": "closed",
