@@ -8,8 +8,10 @@ import { renderBanking } from './banking.js';
 import { renderSupplies } from './supplies.js';
 import { setupLookupForm } from './lookup.js';
 
-// Liczba dzieci w grupie — zmień tu jeśli zmieni się skład grupy
-const TOTAL_CHILDREN = 25;
+// Liczba dzieci w grupie — zmień tu jeśli zmieni się skład grupy.
+// Dotyczy nowych/aktywnych zbiórek. Zbiórki zamknięte przed zmianą składu
+// mają własne pole "totalChildren" w collections.json i nie są tym ruszane.
+const TOTAL_CHILDREN = 24;
 
 function renderError(err) {
     qs('#balance-summary').textContent = 'Błąd ładowania danych.';
@@ -42,7 +44,7 @@ async function init() {
         const expenses = (expensesWrap?.expenses || []).reduce((sum, e) => sum + Number(e.amount || 0), 0);
 
         renderBalance(fromCollections, otherIncome, expenses);
-        renderCollections(openCols, closedCols, TOTAL_CHILDREN);
+        renderCollections(openCols, closedCols);
         renderExpenses(expensesWrap);
         renderSupplies(supplies);
         renderEvents(eventsWrap, new Date());
