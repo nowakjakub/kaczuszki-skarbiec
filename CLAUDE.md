@@ -42,6 +42,20 @@ Single-page app with vanilla JS ES6 modules and plain CSS. Data lives in JSON fi
 - `events.json` — upcoming events (used for banner logic)
 - `banking.json` — account number, BLIK, Revolut, transfer template
 
+## Zamykanie zbiórki — procedura
+
+Przy zmianie statusu zbiórki z `"open"` na `"closed"` **zawsze** dopisz pole `"totalChildren"` z aktualną liczbą dzieci w grupie (dziś: 24). Bez tego pola przyszła zmiana `TOTAL_CHILDREN` w `main.js` zmieni wstecz statystyki tej zbiórki.
+
+```json
+{
+    "name": "Nazwa zbiórki",
+    "amountPerChild": 50.0,
+    "status": "closed",
+    "paid": [1, 2, 3, ...],
+    "totalChildren": 24
+}
+```
+
 ## Conventions
 
 - All user-visible text is in Polish; dates use `pl-PL` locale; currency uses `Intl.NumberFormat` for PLN.
