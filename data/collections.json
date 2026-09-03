@@ -1,6 +1,18 @@
 {
     "collections": [
         {
+            "name": "Rada rodziców - do 30.09.2026",
+            "amountPerChild": 80.0,
+            "status": "open",
+            "paid": []
+        },
+        {
+            "name": "Składka grupowa na rok szkolny - do 30.09.2026",
+            "amountPerChild": 50.0,
+            "status": "open",
+            "paid": []
+        },
+        {
             "name": "Podręczniki 'Bardzo dobry pomysł' WSiP",
             "amountPerChild": 199.0,
             "status": "closed",
