@@ -2,7 +2,7 @@
     "collections": [
         {
             "name": "Rada rodziców - do 30.09.2026",
-            "amountPerChild": 80.0,
+            "amountPerChild": 180.0,
             "status": "open",
             "paid": []
         },
