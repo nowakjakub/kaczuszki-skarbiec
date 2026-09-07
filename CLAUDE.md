@@ -36,11 +36,27 @@ Single-page app with vanilla JS ES6 modules and plain CSS. Data lives in JSON fi
 - `utils.js` — shared helpers: DOM query shortcuts, `fetchJSON`, `escapeHtml`, `escapeAttr`, PLN/date formatting
 
 **Data files** (`data/`):
-- `collections.json` — array of fundraisers with `paid[]` arrays (child numbers) and optional `"totalChildren"` field. Closed collections carry an explicit `"totalChildren"` to freeze their historical group size; open/new ones inherit `TOTAL_CHILDREN` from `main.js`.
+- `collections.json` — array of fundraisers with `paid[]` arrays (child numbers) and optional fields `"totalChildren"` and `"halfPrice"`. Closed collections carry an explicit `"totalChildren"` to freeze their historical group size; open/new ones inherit `TOTAL_CHILDREN` from `main.js`. The optional `"halfPrice"` array lists child numbers who pay 50% of `amountPerChild` (e.g. siblings).
 - `expenses.json` — expense records with optional `receipt` path under `receipts/`
 - `incomes.json` — non-collection income sources
 - `events.json` — upcoming events (used for banner logic)
 - `banking.json` — account number, BLIK, Revolut, transfer template
+
+## Rodzeństwo — rabat 50%
+
+Jeśli w grupie jest rodzeństwo, za jedno z dzieci płacona jest połowa składki. Dodaj pole `"halfPrice"` z numerkami dzieci, które płacą 50%:
+
+```json
+{
+    "name": "Rada rodziców - do 30.09.2026",
+    "amountPerChild": 180.0,
+    "status": "open",
+    "paid": [1, 2, 3, ...],
+    "halfPrice": [18]
+}
+```
+
+`normalizeCollection` uwzględnia to przy liczeniu `collected`. `lookup.js` pokazuje właściwą kwotę „do zapłaty" dla danego dziecka. Na karcie zbiórki pojawia się informacja o rabacie.
 
 ## Zamykanie zbiórki — procedura
 
@@ -55,6 +71,30 @@ Przy zmianie statusu zbiórki z `"open"` na `"closed"` **zawsze** dopisz pole `"
     "totalChildren": 24
 }
 ```
+
+## Pomysł na przyszłość — aplikacja webowa z panelem admina
+
+Obecna architektura (statyczny site, dane w JSON-ach, GitHub Pages) jest prosta i bezkosztowa, ale nie pozwala na edycję danych przez przeglądarkę bez dostępu do repozytorium.
+
+Gdyby w przyszłości powstała wersja z panelem admina, wymagałaby:
+
+**Backend / baza danych**
+- Np. **Supabase** (Postgres w chmurze + REST API + Auth) — darmowy plan wystarczy na ten rozmiar danych. Alternatywnie Firebase.
+- JSON-y z `data/` zastąpiłaby baza; strona publiczna czytałaby dane przez API.
+
+**Autentykacja**
+- Supabase Auth lub Firebase Auth — login email + hasło lub przez Google.
+- Panel admina (`/admin`) dostępny tylko po zalogowaniu.
+
+**Panel admina (frontend)**
+- Formularze: dodawanie/edytowanie zbiórek, oznaczanie wpłat, dodawanie wydatków z uploadem paragonu, dodawanie wydarzeń.
+- Storage na paragony: Supabase Storage zamiast plików w repozytorium.
+
+**Hosting**
+- GitHub Pages odpada (tylko statyka). Vercel lub Netlify — darmowe plany.
+
+**Alternatywa bez przepisywania**
+- **Decap CMS** (dawniej Netlify CMS) — panel admina edytujący te same JSON-y przez GitHub API. Zero backendu, logowanie przez GitHub, zmiany lądują jako commity. Wolniejszy deploy (GitHub Pages), ale minimalna zmiana architektury.
 
 ## Conventions
 

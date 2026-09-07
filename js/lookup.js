@@ -21,13 +21,17 @@ export function setupLookupForm(openCols, totalChildren) {
 
         const rows = openCols.map((c) => {
             const paid = c.paid.includes(n);
+            const due = (c.halfPrice || []).includes(n) ? c.amount * 0.5 : c.amount;
             return `<li>${escapeHtml(c.name)} — ${paid
                 ? '<span class="badge ok">✅ Hurra! Opłacono</span>'
-                : `<span class="badge due">⏰ Czas zapłacić: ${PLN(c.amount)}</span>`
+                : `<span class="badge due">⏰ Czas zapłacić: ${PLN(due)}</span>`
             }</li>`;
         });
 
-        const totalDue = openCols.reduce((sum, c) => sum + (c.paid.includes(n) ? 0 : c.amount), 0);
+        const totalDue = openCols.reduce((sum, c) => {
+            if (c.paid.includes(n)) return sum;
+            return sum + ((c.halfPrice || []).includes(n) ? c.amount * 0.5 : c.amount);
+        }, 0);
         result.innerHTML = `
             <p><strong>🎯 Status płatności dla numerka ${n}:</strong></p>
             <ul class="list">${rows.join('')}</ul>

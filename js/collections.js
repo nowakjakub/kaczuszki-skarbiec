@@ -14,16 +14,18 @@ export function normalizeCollection(col, defaultTotalChildren) {
     const totalChildren = Number.isInteger(col.totalChildren)
         ? col.totalChildren
         : defaultTotalChildren;
+    const halfPrice = Array.isArray(col.halfPrice) ? col.halfPrice : [];
     const paid = normalizePaidList(col.paid, totalChildren);
     const amount = Number(col.amountPerChild || 0);
     const paidCount = paid.length;
-    const collected = paidCount * amount;
+    const collected = paid.reduce((sum, n) => sum + (halfPrice.includes(n) ? 0.5 : 1) * amount, 0);
     const unpaidNumbers = Array.from({ length: totalChildren }, (_, i) => i + 1)
         .filter((n) => !paid.includes(n));
     return {
         ...col,
         paid,
         amount,
+        halfPrice,
         paidCount,
         unpaidCount: totalChildren - paidCount,
         collected,
@@ -37,10 +39,14 @@ function renderCollectionCard(c) {
     const statusLabel = c.status === 'open'
         ? '<span class="badge ok">otwarta</span>'
         : '<span class="badge">zamknięta</span>';
+    const siblingNote = c.halfPrice.length
+        ? `<div class="hint">Rodzeństwo (nr ${c.halfPrice.join(', ')}): składka ${PLN(c.amount * 0.5)}</div>`
+        : '';
     return `
         <div class="collection">
             <h3>${escapeHtml(c.name)} ${statusLabel}</h3>
             <div class="meta">Składka: <strong>${PLN(c.amount)}</strong> • Opłacone: <strong>${c.paidCount}/${c.totalChildren}</strong> (${pct}%) • Zebrano: <strong>${PLN(c.collected)}</strong></div>
+            ${siblingNote}
         </div>`;
 }
 
