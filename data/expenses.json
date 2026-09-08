@@ -1,6 +1,12 @@
 {
     "expenses": [
         {
+            "date": "2026-09-08",
+            "what": "Podręczniki 'Bardzo dobry pomysł' WSiP",
+            "amount": 4577.00,
+            "receipt": ""
+        },
+        {
             "date": "2026-06-30",
             "what": "Kwiaty dla Pań",
             "amount": 250.00,
