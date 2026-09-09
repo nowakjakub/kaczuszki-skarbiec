@@ -1,6 +1,12 @@
 {
     "collections": [
         {
+            "name": "Kino - 23.09.2026",
+            "amountPerChild": 14.0,
+            "status": "open",
+            "paid": []
+        },
+        {
             "name": "Rada rodziców - do 30.09.2026",
             "amountPerChild": 180.0,
             "status": "open",
