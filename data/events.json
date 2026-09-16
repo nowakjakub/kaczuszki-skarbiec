@@ -1,6 +1,11 @@
 {
     "events": [
         {
+            "date": "2026-09-23",
+            "title": "Kino, godz. 9:30",
+            "description": "Wyjście do kina. Tytuł bajki zostanie podany przez kino w ciągu 2–3 dni. Koszt: 14 zł od dziecka."
+        },
+        {
             "date": "2026-06-10",
             "title": "Ostatnie wyjscie na kulki Kaczuszek",
             "description": "Wyjście na kulki"
