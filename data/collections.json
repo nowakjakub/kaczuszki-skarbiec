@@ -4,7 +4,7 @@
             "name": "Kino 'Podręcznik dla superbohaterów' - do 22.09.2026",
             "amountPerChild": 14.0,
             "status": "open",
-            "paid": []
+            "paid": [4, 6]
         },
         {
             "name": "Rada rodziców - do 30.09.2026",
