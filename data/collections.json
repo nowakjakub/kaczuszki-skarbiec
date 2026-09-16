@@ -4,7 +4,7 @@
             "name": "Kino 'Podręcznik dla superbohaterów' - do 22.09.2026",
             "amountPerChild": 14.0,
             "status": "open",
-            "paid": [4, 6, 24]
+            "paid": [4, 6, 7, 14, 24]
         },
         {
             "name": "Rada rodziców - do 30.09.2026",
@@ -17,7 +17,7 @@
             "name": "Składka grupowa na rok szkolny - do 30.09.2026",
             "amountPerChild": 50.0,
             "status": "open",
-            "paid": [2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+            "paid": [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
         },
         {
             "name": "Podręczniki 'Bardzo dobry pomysł' WSiP",
