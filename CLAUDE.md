@@ -22,7 +22,7 @@ Single-page app with vanilla JS ES6 modules and plain CSS. Data lives in JSON fi
 
 **Data flow:** `main.js` fetches all 5 JSON files in parallel (`Promise.all`), then passes data to feature modules for rendering.
 
-**Key constant:** `TOTAL_CHILDREN` in `js/main.js` — current group size (24), used as the default for new/open collections and for the lookup dropdown (1–N). When the group size changes, update only this constant. Do **not** touch closed collections — they each carry their own `"totalChildren"` field in `collections.json` that freezes their historical count, so `normalizeCollection` uses that value instead of the global default.
+**Key constant:** `TOTAL_CHILDREN` in `js/main.js` — current group size (25), used as the default for new/open collections and for the lookup dropdown (1–N). When the group size changes, update only this constant. Do **not** touch closed collections — they each carry their own `"totalChildren"` field in `collections.json` that freezes their historical count, so `normalizeCollection` uses that value instead of the global default.
 
 **Feature modules** (`js/`):
 - `main.js` — initialization, parallel data fetch, error handling
@@ -68,7 +68,7 @@ Przy zmianie statusu zbiórki z `"open"` na `"closed"` **zawsze** dopisz pole `"
     "amountPerChild": 50.0,
     "status": "closed",
     "paid": [1, 2, 3, ...],
-    "totalChildren": 24
+    "totalChildren": 25
 }
 ```
 
