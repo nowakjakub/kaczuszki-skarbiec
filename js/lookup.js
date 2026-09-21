@@ -21,15 +21,19 @@ export function setupLookupForm(openCols, totalChildren) {
 
         const rows = openCols.map((c) => {
             const paid = c.paid.includes(n);
+            const isAbsent = (c.absent || []).includes(n);
             const due = (c.halfPrice || []).includes(n) ? c.amount * 0.5 : c.amount;
             return `<li>${escapeHtml(c.name)} — ${paid
                 ? '<span class="badge ok">✅ Hurra! Opłacono</span>'
-                : `<span class="badge due">⏰ Czas zapłacić: ${PLN(due)}</span>`
+                : isAbsent
+                    ? '<span class="badge">🏠 Nieobecność zgłoszona</span>'
+                    : `<span class="badge due">⏰ Czas zapłacić: ${PLN(due)}</span>`
             }</li>`;
         });
 
         const totalDue = openCols.reduce((sum, c) => {
             if (c.paid.includes(n)) return sum;
+            if ((c.absent || []).includes(n)) return sum;
             return sum + ((c.halfPrice || []).includes(n) ? c.amount * 0.5 : c.amount);
         }, 0);
         result.innerHTML = `
