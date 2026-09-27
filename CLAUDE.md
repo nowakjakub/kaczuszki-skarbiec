@@ -8,23 +8,38 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development
 
-No build tools or dependencies. Serve locally with:
+No build tools; the site itself has no dependencies. Serve locally with:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then open `http://localhost:8000`. Deployment is handled by `.github/workflows/static.yml` on push to `master`.
+Then open `http://localhost:8000`.
+
+**Tests** (always run before committing data or code changes):
+
+```bash
+npm test                                   # unit + data validation (node:test, no install needed)
+npm ci && npx playwright test              # browser tests of the real page (desktop + phone)
+```
+
+`tests/unit/data.test.mjs` validates every file in `data/` (child numbers in range, no duplicates, no child in both `paid` and `absent`, closed collections must have `totalChildren`, receipt files exist, balance ≥ 0). `tests/e2e/` checks the rendered page against the data and against fixed fixtures.
+
+**CI** (`.github/workflows/`):
+- `tests.yml` — runs on every PR and push to `master`; README badge shows its status.
+- `static.yml` — deploys to GitHub Pages on push to `master`, only after `tests.yml` passes (called as a reusable workflow).
+- `dodaj-wplate.yml` — manual `workflow_dispatch` (owner only) that records a payment / absence / undo in an open collection via `scripts/dodaj-wplate.mjs`, runs tests, pushes to `master`, then calls `static.yml` to deploy (GITHUB_TOKEN pushes don't trigger other workflows). It rewrites `collections.json` with `formatCollectionsJson` (4-space indent, number arrays on one line) — keep that format when editing by hand.
 
 ## Architecture
 
 Single-page app with vanilla JS ES6 modules and plain CSS. Data lives in JSON files under `data/`; no backend.
 
-**Data flow:** `main.js` fetches all 5 JSON files in parallel (`Promise.all`), then passes data to feature modules for rendering.
+**Data flow:** `main.js` fetches all 6 JSON files in parallel (`Promise.all`), then passes data to feature modules for rendering.
 
-**Key constant:** `TOTAL_CHILDREN` in `js/main.js` — current group size (25), used as the default for new/open collections and for the lookup dropdown (1–N). When the group size changes, update only this constant. Do **not** touch closed collections — they each carry their own `"totalChildren"` field in `collections.json` that freezes their historical count, so `normalizeCollection` uses that value instead of the global default.
+**Key constant:** `TOTAL_CHILDREN` in `js/config.js` — current group size (25), used as the default for new/open collections and for the lookup dropdown (1–N). When the group size changes, update only this constant. Do **not** touch closed collections — they each carry their own `"totalChildren"` field in `collections.json` that freezes their historical count, so `normalizeCollection` uses that value instead of the global default.
 
 **Feature modules** (`js/`):
+- `config.js` — `TOTAL_CHILDREN` (importable by tests and scripts)
 - `main.js` — initialization, parallel data fetch, error handling
 - `balance.js` — computes treasury balance (incomes + collections − expenses)
 - `collections.js` — renders fundraiser cards with paid/unpaid child tracking
@@ -36,11 +51,12 @@ Single-page app with vanilla JS ES6 modules and plain CSS. Data lives in JSON fi
 - `utils.js` — shared helpers: DOM query shortcuts, `fetchJSON`, `escapeHtml`, `escapeAttr`, PLN/date formatting
 
 **Data files** (`data/`):
-- `collections.json` — array of fundraisers with `paid[]` arrays (child numbers) and optional fields `"totalChildren"` and `"halfPrice"`. Closed collections carry an explicit `"totalChildren"` to freeze their historical group size; open/new ones inherit `TOTAL_CHILDREN` from `main.js`. The optional `"halfPrice"` array lists child numbers who pay 50% of `amountPerChild` (e.g. siblings).
+- `collections.json` — array of fundraisers with `paid[]` arrays (child numbers) and optional fields `"totalChildren"`, `"halfPrice"` and `"absent"`. Closed collections carry an explicit `"totalChildren"` to freeze their historical group size; open/new ones inherit `TOTAL_CHILDREN` from `js/config.js`. The optional `"halfPrice"` array lists child numbers who pay 50% of `amountPerChild` (e.g. siblings). The optional `"absent"` array lists children with a reported absence — they are excluded from unpaid counts and the lookup shows „Nieobecność zgłoszona” instead of an amount due.
 - `expenses.json` — expense records with optional `receipt` path under `receipts/`
 - `incomes.json` — non-collection income sources
 - `events.json` — upcoming events (used for banner logic)
 - `banking.json` — account number, BLIK, Revolut, transfer template
+- `supplies.json` — school supplies list (categories + note)
 
 ## Rodzeństwo — rabat 50%
 
@@ -60,7 +76,7 @@ Jeśli w grupie jest rodzeństwo, za jedno z dzieci płacona jest połowa skład
 
 ## Zamykanie zbiórki — procedura
 
-Przy zmianie statusu zbiórki z `"open"` na `"closed"` **zawsze** dopisz pole `"totalChildren"` z aktualną liczbą dzieci w grupie (dziś: 24). Bez tego pola przyszła zmiana `TOTAL_CHILDREN` w `main.js` zmieni wstecz statystyki tej zbiórki.
+Przy zmianie statusu zbiórki z `"open"` na `"closed"` **zawsze** dopisz pole `"totalChildren"` z aktualną liczbą dzieci w grupie (dziś: 25). Bez tego pola przyszła zmiana `TOTAL_CHILDREN` w `js/config.js` zmieni wstecz statystyki tej zbiórki.
 
 ```json
 {
