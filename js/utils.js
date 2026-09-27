@@ -17,8 +17,9 @@ export const escapeHtml = (str = '') =>
 
 export const escapeAttr = escapeHtml;
 
+// no-cache: przy połączeniu zawsze sprawdzamy świeżość danych (GitHub Pages cache'uje 10 min).
 export const fetchJSON = async (path) => {
-    const res = await fetch(`${DATA_BASE}/${path}`);
+    const res = await fetch(`${DATA_BASE}/${path}`, { cache: 'no-cache' });
     if (!res.ok) throw new Error(`Błąd pobierania ${path}: ${res.status}`);
-    return res.json();
+    return { data: await res.json(), cachedAt: res.headers.get('x-cached-at') };
 };

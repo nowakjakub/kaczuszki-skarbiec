@@ -8,24 +8,24 @@ import { renderBanking } from './banking.js';
 import { renderSupplies } from './supplies.js';
 import { setupLookupForm } from './lookup.js';
 import { TOTAL_CHILDREN } from './config.js';
+import { registerServiceWorker, renderOfflineBanner } from './offline.js';
 
 function renderError(err) {
     qs('#balance-summary').textContent = 'Błąd ładowania danych.';
+    const message = navigator.onLine
+        ? String(err.message || err)
+        : 'Brak internetu, a dane nie zostały jeszcze zapisane na tym urządzeniu. Otwórz stronę raz z internetem.';
     qsa('.card').forEach((card) =>
-        card.insertAdjacentHTML('beforeend', `<p class="hint">${escapeHtml(String(err.message || err))}</p>`)
+        card.insertAdjacentHTML('beforeend', `<p class="hint">${escapeHtml(message)}</p>`)
     );
 }
 
 async function init() {
     try {
-        const [collectionsWrap, incomesWrap, expensesWrap, banking, eventsWrap, supplies] = await Promise.all([
-            fetchJSON('collections.json'),
-            fetchJSON('incomes.json'),
-            fetchJSON('expenses.json'),
-            fetchJSON('banking.json'),
-            fetchJSON('events.json'),
-            fetchJSON('supplies.json'),
-        ]);
+        const files = ['collections.json', 'incomes.json', 'expenses.json', 'banking.json', 'events.json', 'supplies.json'];
+        const responses = await Promise.all(files.map(fetchJSON));
+        const [collectionsWrap, incomesWrap, expensesWrap, banking, eventsWrap, supplies] = responses.map((r) => r.data);
+        renderOfflineBanner(responses.map((r) => r.cachedAt));
 
         qs('#site-title').textContent = '🦆 KACZUSZKI 🦆';
         qs('#current-date').textContent = DATE_FORMATTER.format(new Date());
@@ -53,4 +53,5 @@ async function init() {
 }
 
 initTheme();
+registerServiceWorker();
 document.addEventListener('DOMContentLoaded', init);

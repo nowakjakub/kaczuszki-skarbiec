@@ -26,7 +26,23 @@ https://nowakjakub.github.io/kaczuszki-skarbiec/
 - ✅ **Bez frameworków** — vanilla JavaScript (moduły ES) i czysty CSS
 - ✅ **Responsywne** — komputer, tablet, telefon
 - ✅ **Bez śledzenia** — żadnych cookies ani analityki
+- ✅ **Aplikacja na telefon (PWA)** — instalacja z przeglądarki, działa też offline
 - ✅ **Testowane** — każda zmiana sprawdzana automatycznie przed wdrożeniem
+
+## 📲 Aplikacja na telefonie (także offline)
+
+Stronę można zainstalować jak aplikację — ikona kaczuszki na ekranie głównym, pełny ekran bez paska przeglądarki:
+
+- **Android (Chrome):** menu ⋮ → „Zainstaluj aplikację” (lub „Dodaj do ekranu głównego”),
+- **iPhone (Safari):** przycisk Udostępnij → „Do ekranu początkowego”.
+
+Jak działa:
+
+- **z internetem** — zawsze pobiera najświeższe dane (nowe wpłaty widać od razu po wdrożeniu),
+- **bez internetu** — pokazuje ostatnio pobrane dane z banerem „📴 Tryb offline — dane zapisane …”, żeby nikt nie wziął starego salda za aktualne; po powrocie sieci odświeża się sama,
+- aplikacja jest tylko do przeglądania; paragony są dostępne offline tylko te, które były wcześniej otwarte.
+
+Technicznie: `manifest.webmanifest` (nazwa, ikony z `icons/`) i service worker `sw.js` (network-first, lista plików offline w `PRECACHE` — testy pilnują, żeby była kompletna).
 
 ## ➕ Dodawanie wpłat bez edycji plików
 
@@ -46,7 +62,7 @@ Workflow może uruchomić tylko właściciel repozytorium. Nie zapisze nic, jeś
 | Rodzaj | Co sprawdza | Uruchomienie |
 |---|---|---|
 | Jednostkowe i danych (`tests/unit/`) | liczenie zbiórek (rabat, nieobecni, `totalChildren`), formatowanie, skrypt wpłat oraz poprawność wszystkich plików `data/` — zakresy numerów, brak duplikatów, `totalChildren` w zamkniętych zbiórkach, istnienie paragonów, nieujemne saldo | `npm test` (sam Node 22, bez instalacji) |
-| Strony w przeglądarce (`tests/e2e/`) | prawdziwa strona w Chromium (komputer i telefon): saldo, karty zbiórek, „Czy zapłaciliśmy?” dla każdego dziecka, wydatki, motyw, brak błędów JS | `npm ci && npx playwright install chromium && npm run test:e2e` |
+| Strony w przeglądarce (`tests/e2e/`) | prawdziwa strona w Chromium (komputer i telefon): saldo, karty zbiórek, „Czy zapłaciliśmy?” dla każdego dziecka, wydatki, motyw, brak przewijania w bok, brak błędów JS, działanie offline po wyłączeniu serwera | `npm ci && npx playwright install chromium && npm run test:e2e` |
 
 Kiedy działają automatycznie:
 
@@ -60,11 +76,15 @@ Kiedy działają automatycznie:
 .
 ├── index.html
 ├── styles.css
+├── manifest.webmanifest  # aplikacja na telefon (PWA)
+├── sw.js                # service worker — tryb offline
+├── icons/               # ikony aplikacji
 ├── js/
 │   ├── config.js          # TOTAL_CHILDREN — liczba dzieci w grupie
 │   ├── main.js            # start aplikacji, pobranie danych
 │   ├── collections.js     # liczenie i karty zbiórek
 │   ├── lookup.js          # „Czy zapłaciliśmy?”
+│   ├── offline.js         # rejestracja service workera, baner offline
 │   └── ...                # balance, expenses, events, banking, supplies, theme, utils
 ├── data/                  # collections, expenses, incomes, events, banking, supplies (.json)
 ├── receipts/              # paragony (PDF/JPG)

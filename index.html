@@ -5,6 +5,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kaczuszki Skarbiec – składki, wydatki, wydarzenia</title>
+    <meta name="theme-color" content="#ffc700" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Kaczuszki" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
     <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -18,6 +26,8 @@
     <div id="event-banner" class="event-banner" style="display: none;"></div>
 
     <main class="container">
+
+        <div id="offline-banner" class="offline-banner" role="status" hidden></div>
 
         <button id="theme-toggle" class="theme-toggle-card" aria-label="Przełącz motyw" title="Przełącz motyw">🌙
             Przełącz motyw</button>
@@ -93,6 +103,8 @@
     <footer class="footer">
         <p>Grupa Kaczuszki — transparentne zarządzanie składkami, wydatkami i wydarzeniami</p>
         <small>Strona działa w 100% statycznie na GitHub Pages.</small>
+        <p class="install-hint">📲 Dodaj stronę do telefonu jak aplikację — działa też bez internetu:<br>
+            Android (Chrome): menu ⋮ → „Zainstaluj aplikację” • iPhone (Safari): Udostępnij → „Do ekranu początkowego”</p>
     </footer>
 
     <script type="module" src="js/main.js"></script>
