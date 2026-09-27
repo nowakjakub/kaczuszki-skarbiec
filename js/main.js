@@ -7,11 +7,7 @@ import { renderEvents } from './events.js';
 import { renderBanking } from './banking.js';
 import { renderSupplies } from './supplies.js';
 import { setupLookupForm } from './lookup.js';
-
-// Liczba dzieci w grupie — zmień tu jeśli zmieni się skład grupy.
-// Dotyczy nowych/aktywnych zbiórek. Zbiórki zamknięte przed zmianą składu
-// mają własne pole "totalChildren" w collections.json i nie są tym ruszane.
-const TOTAL_CHILDREN = 25;
+import { TOTAL_CHILDREN } from './config.js';
 
 function renderError(err) {
     qs('#balance-summary').textContent = 'Błąd ładowania danych.';

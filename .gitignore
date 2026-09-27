@@ -10,3 +10,8 @@ Thumbs.db
 
 # Local dev server logs
 *.log
+
+# Testy
+node_modules/
+test-results/
+playwright-report/
