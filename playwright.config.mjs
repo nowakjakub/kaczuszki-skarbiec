@@ -5,7 +5,8 @@ export default defineConfig({
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 1 : 0,
     reporter: process.env.CI ? [['github'], ['list']] : 'list',
-    use: { baseURL: 'http://localhost:4173' },
+    // Service worker przechwytywałby żądania podmieniane w testach; włączony tylko w offline.spec.mjs.
+    use: { baseURL: 'http://localhost:4173', serviceWorkers: 'block' },
     projects: [
         { name: 'desktop', use: { ...devices['Desktop Chrome'] } },
         { name: 'telefon', use: { ...devices['Pixel 7'] } },

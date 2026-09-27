@@ -20,7 +20,7 @@ async function openSite(page, fixtures = {}) {
     page.on('pageerror', (e) => errors.push(e.message));
     page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
     page.on('requestfailed', (r) => errors.push(`${r.url()} ${r.failure()?.errorText}`));
-    page.on('response', (r) => { if (r.status() >= 400 && !r.url().endsWith('favicon.ico')) errors.push(`${r.status()} ${r.url()}`); });
+    page.on('response', (r) => { if (r.status() >= 400) errors.push(`${r.status()} ${r.url()}`); });
     for (const [file, body] of Object.entries(fixtures)) {
         await page.route(`**/data/${file}`, (route) => route.fulfill({ json: body }));
     }
@@ -79,6 +79,14 @@ test.describe('aktualne dane', () => {
             if (due) await expect(sum).toContainText(norm(PLN(due)));
             else await expect(sum).toContainText('Wszystko opłacone');
         }
+    });
+
+    test('strona mieści się na szerokość ekranu (bez przewijania w bok)', async ({ page }) => {
+        const { scrollWidth, clientWidth } = await page.evaluate(() => {
+            const { scrollWidth, clientWidth } = document.documentElement;
+            return { scrollWidth, clientWidth };
+        });
+        expect(scrollWidth).toBeLessThanOrEqual(clientWidth);
     });
 
     test('tabela wydatków ma wszystkie pozycje', async ({ page }) => {

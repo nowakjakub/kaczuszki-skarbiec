@@ -48,7 +48,8 @@ Single-page app with vanilla JS ES6 modules and plain CSS. Data lives in JSON fi
 - `lookup.js` — child payment status checker (dropdown by child number)
 - `banking.js` — bank details with copy-to-clipboard
 - `theme.js` — dark/light mode toggle via OS preference + localStorage
-- `utils.js` — shared helpers: DOM query shortcuts, `fetchJSON`, `escapeHtml`, `escapeAttr`, PLN/date formatting
+- `offline.js` — registers the service worker; shows the offline banner when data came from cache
+- `utils.js` — shared helpers: DOM query shortcuts, `fetchJSON` (returns `{ data, cachedAt }`, uses `cache: 'no-cache'`), `escapeHtml`, `escapeAttr`, PLN/date formatting
 
 **Data files** (`data/`):
 - `collections.json` — array of fundraisers with `paid[]` arrays (child numbers) and optional fields `"totalChildren"`, `"halfPrice"` and `"absent"`. Closed collections carry an explicit `"totalChildren"` to freeze their historical group size; open/new ones inherit `TOTAL_CHILDREN` from `js/config.js`. The optional `"halfPrice"` array lists child numbers who pay 50% of `amountPerChild` (e.g. siblings). The optional `"absent"` array lists children with a reported absence — they are excluded from unpaid counts and the lookup shows „Nieobecność zgłoszona” instead of an amount due.
@@ -57,6 +58,8 @@ Single-page app with vanilla JS ES6 modules and plain CSS. Data lives in JSON fi
 - `events.json` — upcoming events (used for banner logic)
 - `banking.json` — account number, BLIK, Revolut, transfer template
 - `supplies.json` — school supplies list (categories + note)
+
+**PWA / offline:** `manifest.webmanifest` + `sw.js` (network-first; responses stored in the cache get an `x-cached-at` header, which `fetchJSON` exposes so the page can show „Tryb offline — dane zapisane …”). Every file in `js/` and `data/` must be listed in `PRECACHE` in `sw.js` — `tests/unit/pwa.test.mjs` fails otherwise. Bump `CACHE` in `sw.js` only to force-clear old caches. Playwright's `setOffline`/`route` don't reach service workers, so `tests/e2e/offline.spec.mjs` simulates offline by stopping its own HTTP server; other e2e tests run with `serviceWorkers: 'block'`.
 
 ## Rodzeństwo — rabat 50%
 
@@ -116,4 +119,4 @@ Gdyby w przyszłości powstała wersja z panelem admina, wymagałaby:
 
 - All user-visible text is in Polish; dates use `pl-PL` locale; currency uses `Intl.NumberFormat` for PLN.
 - Always use `escapeHtml()` / `escapeAttr()` from `utils.js` when injecting data into HTML strings.
-- CSS theming via custom properties defined on `:root` and `[data-theme="dark"]` in `styles.css`. Responsive breakpoints: >900px two-column grid, <900px single column.
+- CSS theming via custom properties defined on `:root` and `:root.dark` in `styles.css`. Responsive breakpoints: >900px two-column grid, <900px single column. Grid columns use `minmax(0, 1fr)` so wide content (expenses table, account number) can't push the page wider than a phone screen — an e2e test checks for horizontal overflow.
