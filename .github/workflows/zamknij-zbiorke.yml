@@ -1,6 +1,5 @@
-# Wpłata / nieobecność / cofnięcie w otwartej zbiórce — bez edycji plików.
-# Actions → „Dodaj wpłatę” → Run workflow. Uruchomić może tylko właściciel repozytorium.
-name: Dodaj wpłatę
+# Zamknięcie zbiórki (+ opcjonalnie wydatek). Uruchomić może tylko właściciel repozytorium.
+name: Zamknij zbiórkę
 
 on:
   workflow_dispatch:
@@ -9,26 +8,30 @@ on:
         description: 'Numer zbiórki (sprawdź w workflow „Lista zbiórek”)'
         required: true
         type: string
-      numery:
-        description: 'Numery dzieci z dziennika, np. 3, 7, 12'
-        required: true
+      wydatek_kwota:
+        description: 'Wydatek w zł, np. 294 — opcjonalnie (puste = bez wydatku)'
+        required: false
         type: string
-      rodzaj:
-        description: 'Co zapisać (cofnij = usuń omyłkową wpłatę lub nieobecność)'
-        required: true
-        type: choice
-        default: wplata
-        options:
-          - wplata
-          - nieobecnosc
-          - cofnij
+      wydatek_opis:
+        description: 'Opis wydatku — opcjonalnie (domyślnie nazwa zbiórki bez terminu)'
+        required: false
+        type: string
+      wydatek_data:
+        description: 'Data wydatku DD.MM.RRRR — opcjonalnie (domyślnie dziś)'
+        required: false
+        type: string
+      mimo_zaleglosci:
+        description: 'Zamknij mimo zaległości (ktoś nie zapłacił i nie ma zgłoszonej nieobecności)'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
 
 jobs:
   zapisz:
-    name: Zapisz w collections.json
+    name: Zamknij w collections.json
     if: github.triggering_actor == github.repository_owner && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -44,13 +47,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Zapisz zmianę
+      - name: Zamknij zbiórkę
         id: zmiana
         env:
           ZBIORKA: ${{ inputs.zbiorka }}
-          NUMERY: ${{ inputs.numery }}
-          RODZAJ: ${{ inputs.rodzaj }}
-        run: node scripts/dodaj-wplate.mjs
+          WYDATEK_KWOTA: ${{ inputs.wydatek_kwota }}
+          WYDATEK_OPIS: ${{ inputs.wydatek_opis }}
+          WYDATEK_DATA: ${{ inputs.wydatek_data }}
+          MIMO_ZALEGLOSCI: ${{ inputs.mimo_zaleglosci }}
+        run: node scripts/zamknij-zbiorke.mjs
       - name: Testy danych
         run: npm test
       - name: Commit i push na master
@@ -59,7 +64,6 @@ jobs:
         with:
           message: ${{ steps.zmiana.outputs.commit_message }}
 
-  # Push tokenem GITHUB_TOKEN nie uruchamia innych workflowów, więc wdrażamy tutaj.
   wdrozenie:
     name: Wdrożenie strony
     needs: zapisz

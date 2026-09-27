@@ -28,7 +28,12 @@ npm ci && npx playwright test              # browser tests of the real page (des
 **CI** (`.github/workflows/`):
 - `tests.yml` — runs on every PR and push to `master`; README badge shows its status.
 - `static.yml` — deploys to GitHub Pages on push to `master`, only after `tests.yml` passes (called as a reusable workflow).
-- `dodaj-wplate.yml` — manual `workflow_dispatch` (owner only) that records a payment / absence / undo in an open collection via `scripts/dodaj-wplate.mjs`, runs tests, pushes to `master`, then calls `static.yml` to deploy (GITHUB_TOKEN pushes don't trigger other workflows). It rewrites `collections.json` with `formatCollectionsJson` (4-space indent, number arrays on one line) — keep that format when editing by hand.
+- Collection workflows (manual `workflow_dispatch`, owner only for the mutating ones), all addressing collections by their numeric `id`:
+  - `lista-zbiorek.yml` — read-only; prints open collections with ids to the run summary.
+  - `otworz-zbiorke.yml` → `scripts/otworz-zbiorke.mjs` — new open collection with `id = max + 1`.
+  - `dodaj-wplate.yml` → `scripts/dodaj-wplate.mjs` — payment / absence / undo.
+  - `zamknij-zbiorke.yml` → `scripts/zamknij-zbiorke.mjs` — closes (adds `totalChildren`), refuses when unpaid children remain unless forced, optionally prepends an expense.
+  Mutating ones share the `dane-zbiorek` concurrency group, run `npm test`, commit+push via the local action `.github/actions/zapisz-na-master`, then call `static.yml` to deploy (GITHUB_TOKEN pushes don't trigger other workflows). Logic lives in `scripts/zbiorki.mjs` (pure, unit-tested); I/O and run summaries in `scripts/cli.mjs`. `collections.json` is rewritten with `formatCollectionsJson` (4-space indent, number arrays on one line) — keep that format when editing by hand; `expenses.json` is edited by text insertion (`insertExpense`) so its `294.00`-style amounts stay untouched.
 
 ## Architecture
 
@@ -52,7 +57,7 @@ Single-page app with vanilla JS ES6 modules and plain CSS. Data lives in JSON fi
 - `utils.js` — shared helpers: DOM query shortcuts, `fetchJSON` (returns `{ data, cachedAt }`, uses `cache: 'no-cache'`), `escapeHtml`, `escapeAttr`, PLN/date formatting
 
 **Data files** (`data/`):
-- `collections.json` — array of fundraisers with `paid[]` arrays (child numbers) and optional fields `"totalChildren"`, `"halfPrice"` and `"absent"`. Closed collections carry an explicit `"totalChildren"` to freeze their historical group size; open/new ones inherit `TOTAL_CHILDREN` from `js/config.js`. The optional `"halfPrice"` array lists child numbers who pay 50% of `amountPerChild` (e.g. siblings). The optional `"absent"` array lists children with a reported absence — they are excluded from unpaid counts and the lookup shows „Nieobecność zgłoszona” instead of an amount due.
+- `collections.json` — array of fundraisers, each with a unique numeric `"id"` (stable, not shown on the page; new = max + 1) and `paid[]` arrays (child numbers) and optional fields `"totalChildren"`, `"halfPrice"` and `"absent"`. Closed collections carry an explicit `"totalChildren"` to freeze their historical group size; open/new ones inherit `TOTAL_CHILDREN` from `js/config.js`. The optional `"halfPrice"` array lists child numbers who pay 50% of `amountPerChild` (e.g. siblings). The optional `"absent"` array lists children with a reported absence — they are excluded from unpaid counts and the lookup shows „Nieobecność zgłoszona” instead of an amount due.
 - `expenses.json` — expense records with optional `receipt` path under `receipts/`
 - `incomes.json` — non-collection income sources
 - `events.json` — upcoming events (used for banner logic)
@@ -79,7 +84,7 @@ Jeśli w grupie jest rodzeństwo, za jedno z dzieci płacona jest połowa skład
 
 ## Zamykanie zbiórki — procedura
 
-Przy zmianie statusu zbiórki z `"open"` na `"closed"` **zawsze** dopisz pole `"totalChildren"` z aktualną liczbą dzieci w grupie (dziś: 25). Bez tego pola przyszła zmiana `TOTAL_CHILDREN` w `js/config.js` zmieni wstecz statystyki tej zbiórki.
+Najprościej workflowem „Zamknij zbiórkę” — dopisze `totalChildren` sam. Przy ręcznej zmianie statusu zbiórki z `"open"` na `"closed"` **zawsze** dopisz pole `"totalChildren"` z aktualną liczbą dzieci w grupie (dziś: 25). Bez tego pola przyszła zmiana `TOTAL_CHILDREN` w `js/config.js` zmieni wstecz statystyki tej zbiórki.
 
 ```json
 {

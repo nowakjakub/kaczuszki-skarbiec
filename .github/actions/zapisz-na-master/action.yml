@@ -1,0 +1,29 @@
+name: Zapisz na master
+description: Commit zmian w data/ i push na master (po zielonych testach w tym samym jobie).
+
+inputs:
+  message:
+    description: Treść commita
+    required: true
+
+outputs:
+  sha:
+    description: SHA zapisanego commita
+    value: ${{ steps.push.outputs.sha }}
+
+runs:
+  using: composite
+  steps:
+    - id: push
+      shell: bash
+      env:
+        MESSAGE: ${{ inputs.message }}
+        ACTOR: ${{ github.triggering_actor }}
+        WORKFLOW: ${{ github.workflow }}
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add data/
+        git commit -m "$MESSAGE" -m "Zapisane przez workflow „$WORKFLOW” (uruchomił: $ACTOR)."
+        git push origin HEAD:master
+        echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"

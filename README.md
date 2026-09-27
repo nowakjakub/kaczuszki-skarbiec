@@ -44,24 +44,26 @@ Jak działa:
 
 Technicznie: `manifest.webmanifest` (nazwa, ikony z `icons/`) i service worker `sw.js` (network-first, lista plików offline w `PRECACHE` — testy pilnują, żeby była kompletna).
 
-## ➕ Dodawanie wpłat bez edycji plików
+## ➕ Zbiórki bez edycji plików (GitHub Actions)
 
-Workflow **„Dodaj wpłatę”** dopisuje wpłatę (lub nieobecność) do otwartej zbiórki, uruchamia testy, zapisuje commit na `master` i wdraża stronę.
+Każda zbiórka ma stały **numer** (pole `id`, niewidoczne na stronie). Wszystkie workflowy wybiera się w zakładce **Actions → nazwa workflowu → Run workflow**.
 
-1. Wejdź w [Actions → Dodaj wpłatę](https://github.com/nowakjakub/kaczuszki-skarbiec/actions/workflows/dodaj-wplate.yml).
-2. Kliknij **Run workflow** i wypełnij:
-   - **Zbiórka** — nazwa lub jej fragment, np. `rada`, `kwiaty`, `składka` (wielkość liter i polskie znaki bez znaczenia),
-   - **Numery dzieci** — np. `3, 7, 12`,
-   - **Co zapisać** — `wplata`, `nieobecnosc` albo `cofnij` (usuwa omyłkową wpłatę lub nieobecność).
-3. Po ok. 2 minutach zmiana jest na stronie. Podsumowanie (ile opłaconych, kto jeszcze nie zapłacił) widać na stronie uruchomienia.
+| Workflow | Co robi | Pola |
+|---|---|---|
+| [**Lista zbiórek**](https://github.com/nowakjakub/kaczuszki-skarbiec/actions/workflows/lista-zbiorek.yml) | pokazuje otwarte zbiórki z numerami (niczego nie zmienia) | — |
+| [**Otwórz zbiórkę**](https://github.com/nowakjakub/kaczuszki-skarbiec/actions/workflows/otworz-zbiorke.yml) | dodaje zbiórkę z kolejnym wolnym numerem | nazwa, kwota od dziecka (np. `14` lub `12,50`), termin `DD.MM.RRRR` *(opcj., dopisze „- do …” do nazwy)*, numery rodzeństwa płacącego 50% *(opcj.)* |
+| [**Dodaj wpłatę**](https://github.com/nowakjakub/kaczuszki-skarbiec/actions/workflows/dodaj-wplate.yml) | wpłata, nieobecność albo cofnięcie omyłki | numer zbiórki, numery dzieci (np. `3, 7, 12`), rodzaj: `wplata` / `nieobecnosc` / `cofnij` |
+| [**Zamknij zbiórkę**](https://github.com/nowakjakub/kaczuszki-skarbiec/actions/workflows/zamknij-zbiorke.yml) | zamyka zbiórkę (sam dopisze `totalChildren`) i opcjonalnie dodaje wydatek | numer zbiórki, kwota wydatku *(opcj.)*, opis *(opcj., domyślnie nazwa zbiórki)*, data `DD.MM.RRRR` *(opcj., domyślnie dziś)*, „zamknij mimo zaległości” |
 
-Workflow może uruchomić tylko właściciel repozytorium. Nie zapisze nic, jeśli nazwa pasuje do kilku zbiórek, zbiórka jest zamknięta, numer jest spoza zakresu albo testy danych nie przejdą. Zamykanie zbiórek, wydatki i nowe zbiórki nadal edytuje się w plikach `data/`.
+Każde uruchomienie kończy się podsumowaniem (co zmieniono, kto jeszcze nie zapłacił) i aktualną tabelą otwartych zbiórek z numerami. Zmiana trafia na stronę po ok. 2 minutach.
+
+Zabezpieczenia: workflowy zmieniające dane może uruchomić tylko właściciel repozytorium; nic nie jest zapisywane, jeśli numer zbiórki nie istnieje lub zbiórka jest zamknięta, numer dziecka jest spoza zakresu, zamykana zbiórka ma zaległości (chyba że zaznaczysz „zamknij mimo zaległości”) albo testy danych nie przejdą. Wydarzenia i paragony nadal edytuje się w plikach `data/` i `receipts/`.
 
 ## 🧪 Testy
 
 | Rodzaj | Co sprawdza | Uruchomienie |
 |---|---|---|
-| Jednostkowe i danych (`tests/unit/`) | liczenie zbiórek (rabat, nieobecni, `totalChildren`), formatowanie, skrypt wpłat oraz poprawność wszystkich plików `data/` — zakresy numerów, brak duplikatów, `totalChildren` w zamkniętych zbiórkach, istnienie paragonów, nieujemne saldo | `npm test` (sam Node 22, bez instalacji) |
+| Jednostkowe i danych (`tests/unit/`) | liczenie zbiórek (rabat, nieobecni, `totalChildren`), formatowanie, skrypty workflowów (otwieranie, wpłaty, zamykanie, wydatki) oraz poprawność wszystkich plików `data/` — unikalne numery zbiórek, zakresy numerów dzieci, brak duplikatów, `totalChildren` w zamkniętych zbiórkach, istnienie paragonów, nieujemne saldo | `npm test` (sam Node 22, bez instalacji) |
 | Strony w przeglądarce (`tests/e2e/`) | prawdziwa strona w Chromium (komputer i telefon): saldo, karty zbiórek, „Czy zapłaciliśmy?” dla każdego dziecka, wydatki, motyw, brak przewijania w bok, brak błędów JS, działanie offline po wyłączeniu serwera | `npm ci && npx playwright install chromium && npm run test:e2e` |
 
 Kiedy działają automatycznie:
@@ -88,9 +90,9 @@ Kiedy działają automatycznie:
 │   └── ...                # balance, expenses, events, banking, supplies, theme, utils
 ├── data/                  # collections, expenses, incomes, events, banking, supplies (.json)
 ├── receipts/              # paragony (PDF/JPG)
-├── scripts/               # skrypt workflow „Dodaj wpłatę”
+├── scripts/               # skrypty workflowów (otwórz / wpłata / zamknij / lista)
 ├── tests/                 # unit/ (node:test) i e2e/ (Playwright)
-└── .github/workflows/     # tests.yml, static.yml (wdrożenie), dodaj-wplate.yml
+└── .github/workflows/     # tests.yml, static.yml (wdrożenie) + workflowy zbiórek
 ```
 
 ## 📊 Format danych
@@ -99,6 +101,7 @@ Kiedy działają automatycznie:
 
 ```json
 {
+    "id": 16,
     "name": "Rada rodziców - do 30.09.2026",
     "amountPerChild": 180,
     "status": "open",
@@ -108,6 +111,7 @@ Kiedy działają automatycznie:
 }
 ```
 
+- `id` — stały numer zbiórki używany przez workflowy (nowa zbiórka: największy numer + 1),
 - `paid` — numery dzieci, które zapłaciły,
 - `halfPrice` *(opcjonalne)* — rodzeństwo płacące 50% składki,
 - `absent` *(opcjonalne)* — zgłoszona nieobecność: dziecko nie ma zaległości i nie jest liczone jako niezapłacone,

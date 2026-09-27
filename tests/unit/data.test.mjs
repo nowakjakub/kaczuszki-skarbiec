@@ -25,6 +25,12 @@ function assertChildList(list, max, label) {
 }
 
 describe('collections.json', () => {
+    test('każda zbiórka ma unikalny numer (id)', () => {
+        const ids = collections.map((c) => c.id);
+        assert.ok(ids.every((id) => Number.isInteger(id) && id > 0), 'każda zbiórka musi mieć "id" — dodatnią liczbę całkowitą');
+        assert.equal(new Set(ids).size, ids.length, 'zdublowany numer zbiórki');
+    });
+
     test('nazwy są niepuste i unikalne', () => {
         const names = collections.map((c) => c.name);
         assert.ok(names.every((n) => typeof n === 'string' && n.trim()), 'pusta nazwa zbiórki');
