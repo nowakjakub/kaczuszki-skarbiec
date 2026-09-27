@@ -24,7 +24,7 @@ async function reportOpenCollections() {
     await report(`#### Otwarte zbiórki\n\n${openCollectionsTable(collections, TOTAL_CHILDREN)}`);
 }
 
-export async function run(main) {
+export async function run(main, { showCollections = true } = {}) {
     try {
         await main();
     } catch (err) {
@@ -32,5 +32,5 @@ export async function run(main) {
         await report(`### ❌ Nie zapisano zmian\n\n${err.message.replace(/\n/g, '  \n')}`);
         process.exitCode = 1;
     }
-    await reportOpenCollections();
+    if (showCollections) await reportOpenCollections();
 }

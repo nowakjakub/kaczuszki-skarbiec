@@ -12,7 +12,6 @@ const { expenses } = await load('expenses.json');
 const { incomes } = await load('incomes.json');
 const { events } = await load('events.json');
 const banking = await load('banking.json');
-const supplies = await load('supplies.json');
 
 const isIsoDate = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s) && new Date(`${s}T00:00:00Z`).toISOString().startsWith(s);
 
@@ -86,14 +85,6 @@ test('events.json: każde wydarzenie ma datę i tytuł', () => {
 test('banking.json: numer konta IBAN i szablon tytułu z {nr}', () => {
     assert.match(banking.account_number, /^PL\d{26}$/);
     assert.ok(banking.transfer_title_template.includes('{nr}'));
-});
-
-test('supplies.json: kategorie z listą rzeczy', () => {
-    assert.ok(Array.isArray(supplies.categories) && supplies.categories.length);
-    for (const cat of supplies.categories) {
-        assert.ok(cat.name, 'kategoria bez nazwy');
-        assert.ok(Array.isArray(cat.items) && cat.items.every((s) => typeof s === 'string'), `złe pozycje w: ${cat.name}`);
-    }
 });
 
 test('saldo skarbca nie jest ujemne', () => {

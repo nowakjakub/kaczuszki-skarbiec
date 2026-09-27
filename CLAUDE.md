@@ -33,13 +33,14 @@ npm ci && npx playwright test              # browser tests of the real page (des
   - `otworz-zbiorke.yml` → `scripts/otworz-zbiorke.mjs` — new open collection with `id = max + 1`.
   - `dodaj-wplate.yml` → `scripts/dodaj-wplate.mjs` — payment / absence / undo.
   - `zamknij-zbiorke.yml` → `scripts/zamknij-zbiorke.mjs` — closes (adds `totalChildren`), refuses when unpaid children remain unless forced, optionally prepends an expense.
+  - `dodaj-wydarzenie.yml` → `scripts/dodaj-wydarzenie.mjs` (logic in `scripts/wydarzenia.mjs`) — prepends an event to `events.json` (date `DD.MM.RRRR`, optional time appended as „, godz. H:MM”); rewrites the file with `JSON.stringify(…, null, 4)`.
   Mutating ones share the `dane-zbiorek` concurrency group, run `npm test`, commit+push via the local action `.github/actions/zapisz-na-master`, then call `static.yml` to deploy (GITHUB_TOKEN pushes don't trigger other workflows). Logic lives in `scripts/zbiorki.mjs` (pure, unit-tested); I/O and run summaries in `scripts/cli.mjs`. `collections.json` is rewritten with `formatCollectionsJson` (4-space indent, number arrays on one line) — keep that format when editing by hand; `expenses.json` is edited by text insertion (`insertExpense`) so its `294.00`-style amounts stay untouched.
 
 ## Architecture
 
 Single-page app with vanilla JS ES6 modules and plain CSS. Data lives in JSON files under `data/`; no backend.
 
-**Data flow:** `main.js` fetches all 6 JSON files in parallel (`Promise.all`), then passes data to feature modules for rendering.
+**Data flow:** `main.js` fetches all 5 JSON files in parallel (`Promise.all`), then passes data to feature modules for rendering.
 
 **Key constant:** `TOTAL_CHILDREN` in `js/config.js` — current group size (25), used as the default for new/open collections and for the lookup dropdown (1–N). When the group size changes, update only this constant. Do **not** touch closed collections — they each carry their own `"totalChildren"` field in `collections.json` that freezes their historical count, so `normalizeCollection` uses that value instead of the global default.
 
@@ -62,7 +63,6 @@ Single-page app with vanilla JS ES6 modules and plain CSS. Data lives in JSON fi
 - `incomes.json` — non-collection income sources
 - `events.json` — upcoming events (used for banner logic)
 - `banking.json` — account number, BLIK, Revolut, transfer template
-- `supplies.json` — school supplies list (categories + note)
 
 **PWA / offline:** `manifest.webmanifest` + `sw.js` (network-first; responses stored in the cache get an `x-cached-at` header, which `fetchJSON` exposes so the page can show „Tryb offline — dane zapisane …”). Every file in `js/` and `data/` must be listed in `PRECACHE` in `sw.js` — `tests/unit/pwa.test.mjs` fails otherwise. Bump `CACHE` in `sw.js` only to force-clear old caches. Playwright's `setOffline`/`route` don't reach service workers, so `tests/e2e/offline.spec.mjs` simulates offline by stopping its own HTTP server; other e2e tests run with `serviceWorkers: 'block'`.
 

@@ -21,7 +21,6 @@ const PRECACHE = [
     'js/lookup.js',
     'js/main.js',
     'js/offline.js',
-    'js/supplies.js',
     'js/theme.js',
     'js/utils.js',
     'data/banking.json',
@@ -29,7 +28,6 @@ const PRECACHE = [
     'data/events.json',
     'data/expenses.json',
     'data/incomes.json',
-    'data/supplies.json',
 ];
 
 async function stamp(response) {
