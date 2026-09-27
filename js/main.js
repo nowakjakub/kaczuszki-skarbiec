@@ -5,7 +5,6 @@ import { renderBalance } from './balance.js';
 import { renderExpenses } from './expenses.js';
 import { renderEvents } from './events.js';
 import { renderBanking } from './banking.js';
-import { renderSupplies } from './supplies.js';
 import { setupLookupForm } from './lookup.js';
 import { TOTAL_CHILDREN } from './config.js';
 import { registerServiceWorker, renderOfflineBanner } from './offline.js';
@@ -22,9 +21,9 @@ function renderError(err) {
 
 async function init() {
     try {
-        const files = ['collections.json', 'incomes.json', 'expenses.json', 'banking.json', 'events.json', 'supplies.json'];
+        const files = ['collections.json', 'incomes.json', 'expenses.json', 'banking.json', 'events.json'];
         const responses = await Promise.all(files.map(fetchJSON));
-        const [collectionsWrap, incomesWrap, expensesWrap, banking, eventsWrap, supplies] = responses.map((r) => r.data);
+        const [collectionsWrap, incomesWrap, expensesWrap, banking, eventsWrap] = responses.map((r) => r.data);
         renderOfflineBanner(responses.map((r) => r.cachedAt));
 
         qs('#site-title').textContent = '🦆 KACZUSZKI 🦆';
@@ -42,7 +41,6 @@ async function init() {
         renderBalance(fromCollections, otherIncome, expenses);
         renderCollections(openCols, closedCols);
         renderExpenses(expensesWrap);
-        renderSupplies(supplies);
         renderEvents(eventsWrap, new Date());
         renderBanking(banking);
         setupLookupForm(openCols, TOTAL_CHILDREN);

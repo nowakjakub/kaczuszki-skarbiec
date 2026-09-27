@@ -15,7 +15,6 @@ https://nowakjakub.github.io/kaczuszki-skarbiec/
 - **🎁 Nasze zbiórki** — otwarte i zamknięte zbiórki ze statusem wpłat, rabatem dla rodzeństwa i zgłoszonymi nieobecnościami
 - **👶 Czy zapłaciliśmy?** — zaległości dziecka po numerze z dziennika
 - **🏦 Jak przelać pieniążki?** — dane bankowe, BLIK, Revolut z kopiowaniem
-- **🎒 Wyprawka** — lista rzeczy do przygotowania
 - **🎉 Co nas czeka?** — wydarzenia z bannerem dla najbliższych 5 dni
 - **📊 Gdzie idą pieniążki?** — wydatki z paragonami
 - **🌙 Przełącznik motywu** — jasny/ciemny, zgodnie z ustawieniem systemu
@@ -44,7 +43,7 @@ Jak działa:
 
 Technicznie: `manifest.webmanifest` (nazwa, ikony z `icons/`) i service worker `sw.js` (network-first, lista plików offline w `PRECACHE` — testy pilnują, żeby była kompletna).
 
-## ➕ Zbiórki bez edycji plików (GitHub Actions)
+## ➕ Zbiórki i wydarzenia bez edycji plików (GitHub Actions)
 
 Każda zbiórka ma stały **numer** (pole `id`, niewidoczne na stronie). Wszystkie workflowy wybiera się w zakładce **Actions → nazwa workflowu → Run workflow**.
 
@@ -54,10 +53,11 @@ Każda zbiórka ma stały **numer** (pole `id`, niewidoczne na stronie). Wszystk
 | [**Otwórz zbiórkę**](https://github.com/nowakjakub/kaczuszki-skarbiec/actions/workflows/otworz-zbiorke.yml) | dodaje zbiórkę z kolejnym wolnym numerem | nazwa, kwota od dziecka (np. `14` lub `12,50`), termin `DD.MM.RRRR` *(opcj., dopisze „- do …” do nazwy)*, numery rodzeństwa płacącego 50% *(opcj.)* |
 | [**Dodaj wpłatę**](https://github.com/nowakjakub/kaczuszki-skarbiec/actions/workflows/dodaj-wplate.yml) | wpłata, nieobecność albo cofnięcie omyłki | numer zbiórki, numery dzieci (np. `3, 7, 12`), rodzaj: `wplata` / `nieobecnosc` / `cofnij` |
 | [**Zamknij zbiórkę**](https://github.com/nowakjakub/kaczuszki-skarbiec/actions/workflows/zamknij-zbiorke.yml) | zamyka zbiórkę (sam dopisze `totalChildren`) i opcjonalnie dodaje wydatek | numer zbiórki, kwota wydatku *(opcj.)*, opis *(opcj., domyślnie nazwa zbiórki)*, data `DD.MM.RRRR` *(opcj., domyślnie dziś)*, „zamknij mimo zaległości” |
+| [**Dodaj wydarzenie**](https://github.com/nowakjakub/kaczuszki-skarbiec/actions/workflows/dodaj-wydarzenie.yml) | dodaje wydarzenie do „Co nas czeka?” | data `DD.MM.RRRR`, tytuł, godzina *(opcj., np. `9:30`)*, opis *(opcj.)* |
 
 Każde uruchomienie kończy się podsumowaniem (co zmieniono, kto jeszcze nie zapłacił) i aktualną tabelą otwartych zbiórek z numerami. Zmiana trafia na stronę po ok. 2 minutach.
 
-Zabezpieczenia: workflowy zmieniające dane może uruchomić tylko właściciel repozytorium; nic nie jest zapisywane, jeśli numer zbiórki nie istnieje lub zbiórka jest zamknięta, numer dziecka jest spoza zakresu, zamykana zbiórka ma zaległości (chyba że zaznaczysz „zamknij mimo zaległości”) albo testy danych nie przejdą. Wydarzenia i paragony nadal edytuje się w plikach `data/` i `receipts/`.
+Zabezpieczenia: workflowy zmieniające dane może uruchomić tylko właściciel repozytorium; nic nie jest zapisywane, jeśli numer zbiórki nie istnieje lub zbiórka jest zamknięta, numer dziecka jest spoza zakresu, zamykana zbiórka ma zaległości (chyba że zaznaczysz „zamknij mimo zaległości”) albo testy danych nie przejdą. Paragony nadal dodaje się jako pliki w `receipts/`.
 
 ## 🧪 Testy
 
@@ -87,8 +87,8 @@ Kiedy działają automatycznie:
 │   ├── collections.js     # liczenie i karty zbiórek
 │   ├── lookup.js          # „Czy zapłaciliśmy?”
 │   ├── offline.js         # rejestracja service workera, baner offline
-│   └── ...                # balance, expenses, events, banking, supplies, theme, utils
-├── data/                  # collections, expenses, incomes, events, banking, supplies (.json)
+│   └── ...                # balance, expenses, events, banking, theme, utils
+├── data/                  # collections, expenses, incomes, events, banking (.json)
 ├── receipts/              # paragony (PDF/JPG)
 ├── scripts/               # skrypty workflowów (otwórz / wpłata / zamknij / lista)
 ├── tests/                 # unit/ (node:test) i e2e/ (Playwright)
@@ -145,7 +145,7 @@ Otwórz: http://localhost:8000
 
 - **Liczba dzieci w grupie** — `TOTAL_CHILDREN` w `js/config.js`. Zamknięte zbiórki mają własne `totalChildren` i nie należy ich przeliczać.
 - **Zamykanie zbiórki** — zmień `"status"` na `"closed"` i dopisz `"totalChildren"` z aktualną liczbą dzieci.
-- **Dane bankowe** — `data/banking.json`; **wydarzenia** — `data/events.json`; **wyprawka** — `data/supplies.json`.
+- **Dane bankowe** — `data/banking.json`; **wydarzenia** — workflow „Dodaj wydarzenie” albo `data/events.json`.
 
 ## 🚢 Wdrażanie
 

@@ -1,0 +1,71 @@
+# Nowe wydarzenie w „Co nas czeka?”. Uruchomić może tylko właściciel repozytorium.
+name: Dodaj wydarzenie
+
+on:
+  workflow_dispatch:
+    inputs:
+      data:
+        description: 'Data wydarzenia DD.MM.RRRR, np. 14.10.2026'
+        required: true
+        type: string
+      tytul:
+        description: 'Tytuł, np. Kino „Tytuł filmu”'
+        required: true
+        type: string
+      godzina:
+        description: 'Godzina, np. 9:30 — opcjonalnie (dopisze „, godz. 9:30” do tytułu)'
+        required: false
+        type: string
+      opis:
+        description: 'Opis — opcjonalnie'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  zapisz:
+    name: Dodaj do events.json
+    if: github.triggering_actor == github.repository_owner && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    concurrency:
+      group: dane-zbiorek
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    outputs:
+      sha: ${{ steps.zapis.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Dodaj wydarzenie
+        id: zmiana
+        env:
+          DATA: ${{ inputs.data }}
+          TYTUL: ${{ inputs.tytul }}
+          GODZINA: ${{ inputs.godzina }}
+          OPIS: ${{ inputs.opis }}
+        run: node scripts/dodaj-wydarzenie.mjs
+      - name: Testy danych
+        run: npm test
+      - name: Commit i push na master
+        id: zapis
+        uses: ./.github/actions/zapisz-na-master
+        with:
+          message: ${{ steps.zmiana.outputs.commit_message }}
+
+  # Push tokenem GITHUB_TOKEN nie uruchamia innych workflowów, więc wdrażamy tutaj.
+  wdrozenie:
+    name: Wdrożenie strony
+    needs: zapisz
+    uses: ./.github/workflows/static.yml
+    with:
+      ref: ${{ needs.zapisz.outputs.sha }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
