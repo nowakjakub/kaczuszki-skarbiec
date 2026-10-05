@@ -5,7 +5,7 @@
             "name": "Joga - do 21.10.2026",
             "amountPerChild": 10,
             "status": "open",
-            "paid": [13]
+            "paid": [13, 18]
         },
         {
             "id": 17,
