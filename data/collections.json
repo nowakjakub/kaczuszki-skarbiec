@@ -1,6 +1,13 @@
 {
     "collections": [
         {
+            "id": 18,
+            "name": "Joga - do 21.10.2026",
+            "amountPerChild": 10,
+            "status": "open",
+            "paid": []
+        },
+        {
             "id": 17,
             "name": "Kwiaty - Dzień Nauczyciela - do 13.10.2026",
             "amountPerChild": 12,
