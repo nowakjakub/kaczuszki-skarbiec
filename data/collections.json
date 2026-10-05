@@ -18,9 +18,10 @@
             "id": 16,
             "name": "Rada rodziców - do 30.09.2026",
             "amountPerChild": 180,
-            "status": "open",
+            "status": "closed",
             "paid": [2, 3, 4, 7, 9, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 25],
-            "halfPrice": [18]
+            "halfPrice": [18],
+            "totalChildren": 25
         },
         {
             "id": 15,
