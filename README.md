@@ -51,11 +51,13 @@ Każda zbiórka ma stały **numer** (pole `id`, niewidoczne na stronie). Wszystk
 |---|---|---|
 | [**Lista zbiórek**](https://github.com/nowakjakub/kaczuszki-skarbiec/actions/workflows/lista-zbiorek.yml) | pokazuje otwarte zbiórki z numerami (niczego nie zmienia) | — |
 | [**Otwórz zbiórkę**](https://github.com/nowakjakub/kaczuszki-skarbiec/actions/workflows/otworz-zbiorke.yml) | dodaje zbiórkę z kolejnym wolnym numerem | nazwa, kwota od dziecka (np. `14` lub `12,50`), termin `DD.MM.RRRR` *(opcj., dopisze „- do …” do nazwy)*, numery rodzeństwa płacącego 50% *(opcj.)* |
-| [**Dodaj wpłatę**](https://github.com/nowakjakub/kaczuszki-skarbiec/actions/workflows/dodaj-wplate.yml) | wpłata, nieobecność albo cofnięcie omyłki | numer zbiórki, numery dzieci (np. `3, 7, 12`), rodzaj: `wplata` / `nieobecnosc` / `cofnij` |
+| [**Dodaj wpłatę**](https://github.com/nowakjakub/kaczuszki-skarbiec/actions/workflows/dodaj-wplate.yml) | wpłata, nieobecność albo cofnięcie omyłki — można dla kilku zbiórek i/albo kilku dzieci naraz | numer zbiórki *(albo kilka po przecinku, np. `16, 17`)*, numery dzieci (np. `3, 7, 12`), rodzaj: `wplata` / `nieobecnosc` / `cofnij`, „Potwierdzam” *(tylko gdy jest kilka zbiórek I kilka dzieci naraz)* |
 | [**Zamknij zbiórkę**](https://github.com/nowakjakub/kaczuszki-skarbiec/actions/workflows/zamknij-zbiorke.yml) | zamyka zbiórkę (sam dopisze `totalChildren`) i opcjonalnie dodaje wydatek | numer zbiórki, kwota wydatku *(opcj.)*, opis *(opcj., domyślnie nazwa zbiórki)*, data `DD.MM.RRRR` *(opcj., domyślnie dziś)*, „zamknij mimo zaległości” |
 | [**Dodaj wydarzenie**](https://github.com/nowakjakub/kaczuszki-skarbiec/actions/workflows/dodaj-wydarzenie.yml) | dodaje wydarzenie do „Co nas czeka?” | data `DD.MM.RRRR`, tytuł, godzina *(opcj., np. `9:30`)*, opis *(opcj.)* |
 
 Każde uruchomienie kończy się podsumowaniem (co zmieniono, kto jeszcze nie zapłacił) i aktualną tabelą otwartych zbiórek z numerami. Zmiana trafia na stronę po ok. 2 minutach.
+
+**Kilka zbiórek i/albo kilka dzieci naraz w „Dodaj wpłatę”:** jedna zbiórka + kilku dzieci, albo kilka zbiórek + jedno dziecko — zapisuje się od razu, bez dodatkowego potwierdzenia. Dopiero kilka zbiórek **i** kilku dzieci naraz (np. `16, 17` + `3, 7`) to iloczyn — 4 wpłaty — łatwo się pomylić, więc trzeba zaznaczyć „Potwierdzam”, że naprawdę **każde** z tych dzieci wpłaciło do **każdej** z tych zbiórek. Bez tego workflow nic nie zapisze i wypisze, ile wpłat by to było.
 
 Zabezpieczenia: workflowy zmieniające dane może uruchomić tylko właściciel repozytorium; nic nie jest zapisywane, jeśli numer zbiórki nie istnieje lub zbiórka jest zamknięta, numer dziecka jest spoza zakresu, zamykana zbiórka ma zaległości (chyba że zaznaczysz „zamknij mimo zaległości”) albo testy danych nie przejdą. Paragony nadal dodaje się jako pliki w `receipts/`.
 

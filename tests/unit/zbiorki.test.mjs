@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import {
-    parseNumbers, findOpenCollection, applyChange, formatCollectionsJson,
+    parseNumbers, findOpenCollection, findOpenCollections, needsConfirmation, applyChange, formatCollectionsJson,
     parseAmount, parseDate, nextId, createCollection, closeCollection, insertExpense, openCollectionsTable, todayIso,
 } from '../../scripts/zbiorki.mjs';
 
@@ -77,6 +77,25 @@ test('findOpenCollection: po numerze (także z #), błąd dla zamkniętej i niei
     assert.throws(() => findOpenCollection(COLLECTIONS, '1'), /#1 Kino stare jest już zamknięta/);
     assert.throws(() => findOpenCollection(COLLECTIONS, '99'), /Nie ma zbiórki nr 99[\s\S]*#3 Rada rodziców/);
     assert.throws(() => findOpenCollection(COLLECTIONS, ''), /Podaj numer/);
+});
+
+test('findOpenCollections: kilka zbiórek po przecinku/średniku, bez duplikatów', () => {
+    assert.deepEqual(findOpenCollections(COLLECTIONS, '3, 4').map((c) => c.id), [3, 4]);
+    assert.deepEqual(findOpenCollections(COLLECTIONS, ' #3 ; #3 ').map((c) => c.id), [3], 'duplikat tej samej zbiórki ma zniknąć');
+    assert.equal(findOpenCollections(COLLECTIONS, '3').length, 1);
+});
+
+test('findOpenCollections: błąd przy którejkolwiek niepoprawnej pozycji, pusta lista', () => {
+    assert.throws(() => findOpenCollections(COLLECTIONS, '3, 1'), /#1 Kino stare jest już zamknięta/);
+    assert.throws(() => findOpenCollections(COLLECTIONS, '3, 99'), /Nie ma zbiórki nr 99/);
+    assert.throws(() => findOpenCollections(COLLECTIONS, ' , '), /Podaj numer zbiórki/);
+});
+
+test('needsConfirmation: tylko gdy kilka zbiórek I kilka numerów naraz', () => {
+    assert.equal(needsConfirmation(1, 1), false);
+    assert.equal(needsConfirmation(1, 5), false, 'jedna zbiórka, wielu dzieci — bez potwierdzenia');
+    assert.equal(needsConfirmation(3, 1), false, 'kilka zbiórek, jedno dziecko — bez potwierdzenia');
+    assert.equal(needsConfirmation(2, 2), true);
 });
 
 test('parseAmount: przecinek, kropka, „zł”; odrzuca zero, ujemne i >2 miejsca po przecinku', () => {

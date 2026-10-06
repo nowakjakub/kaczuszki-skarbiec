@@ -59,6 +59,19 @@ export function findOpenCollection(collections, query) {
     throw new Error(`Nie znaleziono otwartej zbiórki „${query}”. Otwarte zbiórki:\n${list(open)}`);
 }
 
+// Kilka zbiórek naraz, po przecinku/średniku, np. „17, 18” albo „#17;#18”.
+export function findOpenCollections(collections, query) {
+    const parts = String(query ?? '').split(/[,;]+/).map((p) => p.trim()).filter(Boolean);
+    if (!parts.length) throw new Error('Podaj numer zbiórki (lub kilka numerów po przecinku).');
+    const found = parts.map((p) => findOpenCollection(collections, p));
+    const seen = new Set();
+    return found.filter((c) => (seen.has(c.id) ? false : seen.add(c.id)));
+}
+
+// Wiele zbiórek × wiele dzieci = iloczyn kartezjański wpłat — łatwo o pomyłkę,
+// więc taki przypadek wymaga świadomego potwierdzenia w formularzu workflow.
+export const needsConfirmation = (collectionsCount, numbersCount) => collectionsCount > 1 && numbersCount > 1;
+
 export function applyChange(collection, numbers, kind) {
     if (!(kind in KINDS)) throw new Error(`Nieznany rodzaj zmiany: ${kind}`);
     const paid = new Set(collection.paid || []);
