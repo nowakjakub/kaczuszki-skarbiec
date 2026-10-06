@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       zbiorka:
-        description: 'Numer zbiórki (sprawdź w workflow „Lista zbiórek”)'
+        description: 'Numer zbiórki, albo kilka po przecinku np. 16, 17 (sprawdź w workflow „Lista zbiórek”)'
         required: true
         type: string
       numery:
@@ -22,6 +22,11 @@ on:
           - wplata
           - nieobecnosc
           - cofnij
+      potwierdzam:
+        description: 'Tylko przy kilku zbiórkach I kilku numerach naraz: potwierdzam, że KAŻDE z tych dzieci wpłaciło do KAŻDEJ z tych zbiórek'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -50,6 +55,7 @@ jobs:
           ZBIORKA: ${{ inputs.zbiorka }}
           NUMERY: ${{ inputs.numery }}
           RODZAJ: ${{ inputs.rodzaj }}
+          POTWIERDZAM: ${{ inputs.potwierdzam }}
         run: node scripts/dodaj-wplate.mjs
       - name: Testy danych
         run: npm test
