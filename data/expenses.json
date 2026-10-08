@@ -1,0 +1,184 @@
+{
+    "expenses": [
+        {
+            "date": "2026-10-05",
+            "what": "Rada rodziców",
+            "amount": 3150.00,
+            "receipt": ""
+        },
+        {
+            "date": "2026-09-23",
+            "what": "Kino 'Podręcznik dla superbohaterów'",
+            "amount": 294.00,
+            "receipt": ""
+        },
+        {
+            "date": "2026-09-08",
+            "what": "Podręczniki 'Bardzo dobry pomysł' WSiP",
+            "amount": 4776.00,
+            "receipt": ""
+        },
+        {
+            "date": "2026-06-30",
+            "what": "Kwiaty dla Pań",
+            "amount": 250.00,
+            "receipt": "receipts/20260630_kwiaty.jpg"
+        },
+        {
+            "date": "2026-06-10",
+            "what": "Wyjście na kulki",
+            "amount": 250.00,
+            "receipt": ""
+        },
+        {
+            "date": "2026-06-08",
+            "what": "Warsztaty Joga",
+            "amount": 345.00,
+            "receipt": ""
+        },
+        {
+            "date": "2026-05-20",
+            "what": "Materiały na występ z okazji dnia mamy i taty",
+            "amount": 240.05,
+            "receipt": "receipts/20260521.jpeg"
+        },
+        {
+            "date": "2026-05-15",
+            "what": "Wyjście do Kina",
+            "amount": 350.00,
+            "receipt": ""
+        },
+        {
+            "date": "2026-04-24",
+            "what": "Warsztaty LEGO",
+            "amount": 840.00,
+            "receipt": ""
+        },
+        {
+            "date": "2026-04-16",
+            "what": "Ryzy papieru A4 x5",
+            "amount": 135.00,
+            "receipt": "receipts/20260416_161758.jpg"
+        },
+        {
+            "date": "2026-04-09",
+            "what": "Temperówki",
+            "amount": 17.50,
+            "receipt": "receipts/20260409_154851.jpg"
+        },
+        {
+            "date": "2026-04-14",
+            "what": "Koziołek Matołek",
+            "amount": 375,
+            "receipt": ""
+        },
+        {
+            "date": "2026-04-10",
+            "what": "Warsztaty ze zwierzętami",
+            "amount": 720,
+            "receipt": ""
+        },
+        {
+            "date": "2026-03-13",
+            "what": "Spektakl",
+            "amount": 575,
+            "receipt": ""
+        },
+        {
+            "date": "2026-03-11",
+            "what": "Kino",
+            "amount": 322,
+            "receipt": ""
+        },
+        {
+            "date": "2026-02-09",
+            "what": "Kleje Magic dla całej grupy",
+            "amount": 222.50,
+            "receipt": "receipts/IMG_20260209.JPEG"
+        },
+        {
+            "date": "2026-01-26",
+            "what": "Kubeczki i plater na dzień babci i dziadka",
+            "amount": 32.84,
+            "receipt": "receipts/FS 10310_01_2026.pdf"
+        },
+        {
+            "date": "2026-01-26",
+            "what": "Obrus jednorazowy x3",
+            "amount": 31.95,
+            "receipt": "receipts/faktura_1870-1-2026.pdf"
+        },
+        {
+            "date": "2026-01-15",
+            "what": "Zestaw guzików",
+            "amount": 33.49,
+            "receipt": "receipts/20260121_091533.jpg"
+        },
+        {
+            "date": "2026-01-12",
+            "what": "Kartki A4 techniczne - czerwone i różowe, 50 sztuk",
+            "amount": 46.65,
+            "receipt": "receipts/2026-01-12 11-14-13.png"
+        },
+        {
+            "date": "2026-01-11",
+            "what": "Dekoracje - Kwiatki",
+            "amount": 250.00,
+            "receipt": "receipts/IMG_20260112_103911_2.jpg"
+        },
+        {
+            "date": "2025-12-15",
+            "what": "Papier ksero",
+            "amount": 59.97,
+            "receipt": "receipts/20251215_210311.jpg"
+        },
+        {
+            "date": "2025-12-04",
+            "what": "Przedłużacze",
+            "amount": 81.80,
+            "receipt": "receipts/20251204_090327.jpg"
+        },
+        {
+            "date": "2025-11-27",
+            "what": "Worki świąteczne",
+            "amount": 78.20,
+            "receipt": "receipts/20251202_075540.jpg"
+        },
+        {
+            "date": "2025-11-22",
+            "what": "Zakupy na andrzejki i mikołajki",
+            "amount": 241.21,
+            "receipt": "receipts/20251124_102520.jpg"
+        },
+        {
+            "date": "2025-11-02",
+            "what": "Napoje, kubki, talerzyki na przedstawienie",
+            "amount": 64.35,
+            "receipt": "receipts/20251102_180111.jpg"
+        },
+        {
+            "date": "2025-10-20",
+            "what": "Artykuły na przedstawienie",
+            "amount": 40.00,
+            "receipt": "receipts/20251021_080809.jpg"
+        },
+        {
+            "date": "2025-10-14",
+            "what": "Owoce",
+            "amount": 53.18,
+            "receipt": "receipts/20251015_153003.jpg"
+        },
+        {
+            "date": "2025-10-13",
+            "what": "Kwiaty dla Pań",
+            "amount": 300.00,
+            "receipt": "receipts/20251013_165531.jpg"
+        },
+        {
+            "date": "2025-09-10",
+            "what": "Kaczuszki - kliknij!",
+            "amount": 0.00,
+            "receipt": "receipts/rubber-duck-scaled.jpg"
+        }
+    ]
+}

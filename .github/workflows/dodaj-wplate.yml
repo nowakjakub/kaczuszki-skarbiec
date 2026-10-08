@@ -1,0 +1,78 @@
+# Wpłata / nieobecność / cofnięcie w otwartej zbiórce — bez edycji plików.
+# Actions → „Dodaj wpłatę” → Run workflow. Uruchomić może tylko właściciel repozytorium.
+name: Dodaj wpłatę
+
+on:
+  workflow_dispatch:
+    inputs:
+      zbiorka:
+        description: 'Numer zbiórki, albo kilka po przecinku np. 16, 17 (sprawdź w workflow „Lista zbiórek”)'
+        required: true
+        type: string
+      numery:
+        description: 'Numery dzieci z dziennika, np. 3, 7, 12'
+        required: true
+        type: string
+      rodzaj:
+        description: 'Co zapisać (cofnij = usuń omyłkową wpłatę lub nieobecność)'
+        required: true
+        type: choice
+        default: wplata
+        options:
+          - wplata
+          - nieobecnosc
+          - cofnij
+      potwierdzam:
+        description: 'Tylko przy kilku zbiórkach I kilku numerach naraz: potwierdzam, że KAŻDE z tych dzieci wpłaciło do KAŻDEJ z tych zbiórek'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  zapisz:
+    name: Zapisz w collections.json
+    if: github.triggering_actor == github.repository_owner && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    concurrency:
+      group: dane-zbiorek
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    outputs:
+      sha: ${{ steps.zapis.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Zapisz zmianę
+        id: zmiana
+        env:
+          ZBIORKA: ${{ inputs.zbiorka }}
+          NUMERY: ${{ inputs.numery }}
+          RODZAJ: ${{ inputs.rodzaj }}
+          POTWIERDZAM: ${{ inputs.potwierdzam }}
+        run: node scripts/dodaj-wplate.mjs
+      - name: Testy danych
+        run: npm test
+      - name: Commit i push na master
+        id: zapis
+        uses: ./.github/actions/zapisz-na-master
+        with:
+          message: ${{ steps.zmiana.outputs.commit_message }}
+
+  # Push tokenem GITHUB_TOKEN nie uruchamia innych workflowów, więc wdrażamy tutaj.
+  wdrozenie:
+    name: Wdrożenie strony
+    needs: zapisz
+    uses: ./.github/workflows/static.yml
+    with:
+      ref: ${{ needs.zapisz.outputs.sha }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write

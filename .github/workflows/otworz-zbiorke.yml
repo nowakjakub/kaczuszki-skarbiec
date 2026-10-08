@@ -1,0 +1,70 @@
+# Nowa zbiórka — dostaje kolejny wolny numer. Uruchomić może tylko właściciel repozytorium.
+name: Otwórz zbiórkę
+
+on:
+  workflow_dispatch:
+    inputs:
+      nazwa:
+        description: 'Nazwa zbiórki, np. Kino „Tytuł filmu”'
+        required: true
+        type: string
+      kwota:
+        description: 'Składka od dziecka w zł, np. 14 albo 12,50'
+        required: true
+        type: string
+      termin:
+        description: 'Termin wpłat DD.MM.RRRR (opcjonalnie — dopisze „- do DD.MM.RRRR” do nazwy)'
+        required: false
+        type: string
+      rodzenstwo:
+        description: 'Numery dzieci płacących 50% (rodzeństwo), np. 18 — opcjonalnie'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  zapisz:
+    name: Dodaj zbiórkę do collections.json
+    if: github.triggering_actor == github.repository_owner && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    concurrency:
+      group: dane-zbiorek
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    outputs:
+      sha: ${{ steps.zapis.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Utwórz zbiórkę
+        id: zmiana
+        env:
+          NAZWA: ${{ inputs.nazwa }}
+          KWOTA: ${{ inputs.kwota }}
+          TERMIN: ${{ inputs.termin }}
+          RODZENSTWO: ${{ inputs.rodzenstwo }}
+        run: node scripts/otworz-zbiorke.mjs
+      - name: Testy danych
+        run: npm test
+      - name: Commit i push na master
+        id: zapis
+        uses: ./.github/actions/zapisz-na-master
+        with:
+          message: ${{ steps.zmiana.outputs.commit_message }}
+
+  wdrozenie:
+    name: Wdrożenie strony
+    needs: zapisz
+    uses: ./.github/workflows/static.yml
+    with:
+      ref: ${{ needs.zapisz.outputs.sha }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write

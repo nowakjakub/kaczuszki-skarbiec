@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kaczuszki Skarbiec – składki, wydatki, wydarzenia</title>
+    <meta name="theme-color" content="#ffc700" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Kaczuszki" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header class="topbar">
+        <div>
+            <h1 id="site-title">KACZUSZKI</h1>
+        </div>
+    </header>
+
+    <div id="event-banner" class="event-banner" style="display: none;"></div>
+
+    <main class="container">
+
+        <div id="offline-banner" class="offline-banner" role="status" hidden></div>
+
+        <button id="theme-toggle" class="theme-toggle-card" aria-label="Przełącz motyw" title="Przełącz motyw">🌙
+            Przełącz motyw</button>
+
+        <section class="card" id="balance-card">
+            <div id="current-date" class="current-date"></div>
+            <h2>💰 Stan naszego skarbca</h2>
+            <div id="balance-summary" class="balance"></div>
+            <details>
+                <summary>Jak liczymy?</summary>
+                <ul id="balance-breakdown"></ul>
+            </details>
+        </section>
+
+        <section class="card" id="collections-section">
+            <h2>🎁 Nasze zbiórki</h2>
+            <div id="current-list"></div>
+            <details>
+                <summary>📦 Poprzednie zbiórki</summary>
+                <div id="past-list"></div>
+            </details>
+        </section>
+
+        <section class="card" id="lookup-card">
+            <h2>👶 Czy zapłaciliśmy?</h2>
+            <form id="lookup-form">
+                <label for="child-number">Numer z dziennika:</label>
+                <select id="child-number" name="child-number" required></select>
+                <button type="submit">Sprawdź</button>
+            </form>
+            <div id="lookup-result" class="lookup"></div>
+            <p class="hint">Uwaga: zamknięte zbiórki są pomijane przy zaległościach.</p>
+        </section>
+
+        <section class="card" id="banking">
+            <h2>🏦 Jak przelać pieniążki?</h2>
+            <div id="banking-data"></div>
+        </section>
+
+        <section class="card" id="events">
+            <h2>🎉 Co nas czeka?</h2>
+            <div id="events-list"></div>
+        </section>
+
+        <section class="card" id="expenses">
+            <details>
+                <summary>
+                    <h2>📊 Gdzie idą pieniążki?</h2>
+                </summary>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Opis</th>
+                                <th>Kwota</th>
+                                <th>Paragon</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expenses-body"></tbody>
+                    </table>
+                </div>
+            </details>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>Grupa Kaczuszki — transparentne zarządzanie składkami, wydatkami i wydarzeniami</p>
+        <small>Strona działa w 100% statycznie na GitHub Pages.</small>
+        <p class="install-hint">📲 Dodaj stronę do telefonu jak aplikację — działa też bez internetu:<br>
+            Android (Chrome): menu ⋮ → „Zainstaluj aplikację” • iPhone (Safari): Udostępnij → „Do ekranu początkowego”</p>
+    </footer>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>

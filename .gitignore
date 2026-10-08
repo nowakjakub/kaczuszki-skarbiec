@@ -1,0 +1,17 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local dev server logs
+*.log
+
+# Testy
+node_modules/
+test-results/
+playwright-report/

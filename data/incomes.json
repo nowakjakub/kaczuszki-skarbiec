@@ -1,0 +1,12 @@
+{
+    "incomes": [
+        {
+            "source": "Z książek",
+            "amount": 18.50
+        },
+        {
+            "source": "Rok szkolny 2024/2025",
+            "amount": 335.46
+        }
+    ]
+}

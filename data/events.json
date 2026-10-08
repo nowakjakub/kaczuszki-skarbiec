@@ -1,0 +1,69 @@
+{
+    "events": [
+        {
+            "date": "2026-09-23",
+            "title": "Kino 'Podręcznik dla superbohaterów', godz. 9:30",
+            "description": "Wyjście do kina na seans 'Podręcznik dla superbohaterów'. Koszt: 14 zł od dziecka."
+        },
+        {
+            "date": "2026-06-10",
+            "title": "Ostatnie wyjscie na kulki Kaczuszek",
+            "description": "Wyjście na kulki"
+        },
+        {
+            "date": "2026-05-15",
+            "title": "Kino Przedszkole - 'Kupuję, kiedy potrzebuję'",
+            "description": "Wyjście dzieci do kina"
+        },
+        {
+            "date": "2026-05-19",
+            "title": "Sesja zdjęciowa",
+            "description": "Sesja zdjęciowa w MUUStudio - płatności bezpośrednio w MUUStudio, szczegóły na czacie grupy"
+        },
+        {
+            "date": "2026-05-28",
+            "title": "Dzień Mamy i Taty, 9:30",
+            "description": "W naszej sali odbędzie się uroczystość z okazji Dnia Mamy i Taty. Zapraszamy wszystkich rodziców do wspólnego świętowania z nami!"
+        },
+        {
+            "date": "2026-06-08",
+            "title": "Warsztaty Joga",
+            "description": "Warsztaty Joga, szczegoly na czacie grupy"
+        },
+        {
+            "date": "2026-04-28",
+            "title": "Warsztaty LEGO",
+            "description": "Warsztaty LEGO, szczegoly na czacie grupy"
+        },
+        {
+            "date": "2026-04-15",
+            "title": "Koziołek Matołek",
+            "description": "Przedstawienie w kinie - Koziołek Matołek"
+        },
+        {
+            "date": "2026-04-10",
+            "title": "Warsztaty Animaloterapii",
+            "description": "Warsztaty z udziałem zwierząt, które pomagają dzieciom rozwijać empatię, komunikację i umiejętności społeczne."
+        },
+        {
+            "date": "2026-03-20",
+            "title": "Powitanie Wiosny - Paradzie Wiosennych Kapeluszy",
+            "description": "Bardzo prosimy o przygotowanie wspólnie z dziećmi kolorowego, wiosennego kapelusza 💚 Niech będzie kwiatowo, motylkowo i bardzo wiosennie! 🦋🌺"
+        },
+        {
+            "date": "2026-03-20",
+            "title": "Powitanie Wiosny - Dzień Kolorowej Skarpetki 🧦🌈",
+            "description": "Prosimy, aby dzieci miały na sobie kolorowe skarpetki  (najlepiej nie do pary!) skarpetki jako znak solidarności i akceptacji"
+        },
+        {
+            "date": "2026-03-19",
+            "title": "Spektakl 'Karolcia'",
+            "description": "CKSiE: Spektakl dla dzieci w wieku 5-7 lat, oparty na książce Marii Krüger. Opowiada historię dziewczynki, która znajduje magiczny niebieski koralik i przeżywa niesamowite przygody."
+        },
+        {
+            "date": "2026-03-18",
+            "title": "Kino 'Różnimy się od siebie i to jest ciekawe'",
+            "description": "Kino: Film animowany dla dzieci w wieku 4-8 lat, który pokazuje, jak różnorodność jest piękna i ważna. Opowiada o grupie zwierząt, które uczą się akceptować swoje różnice i współpracować."
+        }
+    ]
+}
