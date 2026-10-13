@@ -1,6 +1,12 @@
 {
     "expenses": [
         {
+            "date": "2026-10-13",
+            "what": "Kwiaty dla Pań - Dzień Nauczyciela (bukiet, Simply Flowers)",
+            "amount": 300.00,
+            "receipt": "receipts/20261013_kwiaty_dla_pan.jpg"
+        },
+        {
             "date": "2026-10-05",
             "what": "Rada rodziców",
             "amount": 3150.00,
