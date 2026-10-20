@@ -18,7 +18,7 @@ permissions:
 jobs:
   jednostkowe:
     name: Testy jednostkowe i danych
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
@@ -31,10 +31,6 @@ jobs:
 
   strona:
     name: Testy strony w przeglądarce
-    # ubuntu-latest = 26.04 od niedawna; zainstalowany Playwright (patrz package.json)
-    # jeszcze nie wspiera na nim instalacji Chromium ("does not support chromium on
-    # ubuntu26.04-x64"). 24.04 to LTS w pełni wspierane — zmień razem z wersją
-    # @playwright/test, gdy Playwright doda wsparcie dla 26.04.
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:

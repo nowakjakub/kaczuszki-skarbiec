@@ -28,7 +28,7 @@ jobs:
   zapisz:
     name: Dodaj do events.json
     if: github.triggering_actor == github.repository_owner && github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     concurrency:
       group: dane-zbiorek
