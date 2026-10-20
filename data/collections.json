@@ -1,6 +1,20 @@
 {
     "collections": [
         {
+            "id": 20,
+            "name": "Kino Przedszkole „Dzień Postaci z Bajek” - do 15.11.2026",
+            "amountPerChild": 15,
+            "status": "open",
+            "paid": []
+        },
+        {
+            "id": 19,
+            "name": "Joga - do 03.11.2026",
+            "amountPerChild": 10,
+            "status": "open",
+            "paid": []
+        },
+        {
             "id": 18,
             "name": "Joga - do 21.10.2026",
             "amountPerChild": 10,
