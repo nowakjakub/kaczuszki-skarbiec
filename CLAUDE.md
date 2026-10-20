@@ -25,7 +25,7 @@ npm ci && npx playwright test              # browser tests of the real page (des
 
 `tests/unit/data.test.mjs` validates every file in `data/` (child numbers in range, no duplicates, no child in both `paid` and `absent`, closed collections must have `totalChildren`, receipt files exist, balance ≥ 0). `tests/e2e/` checks the rendered page against the data and against fixed fixtures.
 
-**CI** (`.github/workflows/`):
+**CI** (`.github/workflows/`): every job in every workflow pins `runs-on: ubuntu-24.04` (not `ubuntu-latest`) so all workflows run on the same, known-good image — `ubuntu-latest` silently moved to 26.04, which the pinned `@playwright/test` version doesn't yet support for installing Chromium. Bump the pin everywhere together (not just the Playwright job) when Playwright adds 26.04 support and `@playwright/test` in `package.json` is upgraded to match.
 - `tests.yml` — runs on every PR and push to `master`; README badge shows its status.
 - `static.yml` — deploys to GitHub Pages on push to `master`, only after `tests.yml` passes (called as a reusable workflow).
 - Collection workflows (manual `workflow_dispatch`, owner only for the mutating ones), all addressing collections by their numeric `id`:
