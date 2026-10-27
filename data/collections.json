@@ -1,6 +1,13 @@
 {
     "collections": [
         {
+            "id": 20,
+            "name": "Spotkanie z alpakami - do 18.11.2026",
+            "amountPerChild": 20,
+            "status": "open",
+            "paid": []
+        },
+        {
             "id": 19,
             "name": "Kino Przedszkole „Dzień Postaci z Bajek” - do 15.11.2026",
             "amountPerChild": 15,
