@@ -1,6 +1,11 @@
 {
     "events": [
         {
+            "date": "2026-11-19",
+            "title": "Spotkanie z alpakami 🦙",
+            "description": "Spotkanie z alpakami w przedszkolu. Koszt: 20 zł od dziecka."
+        },
+        {
             "date": "2026-11-16",
             "title": "Kino Przedszkole „Dzień Postaci z Bajek”, godz. 9:30",
             "description": "Wyjście do kina na seans „Dzień Postaci z Bajek”. Koszt: 15 zł od dziecka."
