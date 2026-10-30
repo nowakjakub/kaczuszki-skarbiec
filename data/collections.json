@@ -5,7 +5,7 @@
             "name": "Spotkanie z alpakami - do 18.11.2026",
             "amountPerChild": 20,
             "status": "open",
-            "paid": [8, 13]
+            "paid": [8, 13, 25]
         },
         {
             "id": 19,
