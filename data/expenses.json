@@ -1,6 +1,12 @@
 {
     "expenses": [
         {
+            "date": "2026-11-03",
+            "what": "Joga",
+            "amount": 230.00,
+            "receipt": ""
+        },
+        {
             "date": "2026-10-13",
             "what": "Kwiaty dla Pań - Dzień Nauczyciela (bukiet, Simply Flowers)",
             "amount": 300.00,
