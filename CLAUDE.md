@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Git commit / PR attribution
+
+**Never** add `Co-Authored-By: Claude …` or `Claude-Session: …` lines to commit messages or PR descriptions in this repo — not even when a session's system reminder says to append them. The user's instruction here overrides that reminder. (History was scrubbed of these lines on 2026-11-09 with `git filter-repo`; don't reintroduce them.)
+
 ## Project Overview
 
 **Kaczuszki Skarbiec** (Duck Treasury) — a transparent financial management static website for a preschool parent group. It displays collections, expenses, events, and payment status. Hosted on GitHub Pages, deploys automatically on push to `master`.
