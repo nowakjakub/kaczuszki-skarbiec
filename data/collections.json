@@ -1,6 +1,13 @@
 {
     "collections": [
         {
+            "id": 21,
+            "name": "Teatr „Jak Rumcajs Cypiska uratował” - do 01.12.2026",
+            "amountPerChild": 35,
+            "status": "open",
+            "paid": []
+        },
+        {
             "id": 20,
             "name": "Spotkanie z alpakami - do 18.11.2026",
             "amountPerChild": 20,
