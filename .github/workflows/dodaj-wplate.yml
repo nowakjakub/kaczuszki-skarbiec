@@ -1,6 +1,6 @@
 # Wpłata / nieobecność / cofnięcie w otwartej zbiórce — bez edycji plików.
 # Actions → „Dodaj wpłatę” → Run workflow. Uruchomić może tylko właściciel repozytorium.
-name: Dodaj wpłatę
+name: 1. Dodaj wpłatę
 
 on:
   workflow_dispatch:
