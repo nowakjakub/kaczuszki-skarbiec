@@ -1,9 +1,19 @@
 {
     "events": [
         {
+            "date": "2026-12-17",
+            "title": "Jasełka Bożonarodzeniowe, godz. 10:00",
+            "description": "Świąteczny występ dzieci w naszej sali."
+        },
+        {
             "date": "2026-12-02",
             "title": "Teatr „Jak Rumcajs Cypiska uratował”, godz. 10:20",
             "description": "Spektakl teatralny w CEiSE w wykonaniu Narodowego Teatru Edukacji im. Adama Mickiewicza. Koszt: 35 zł od dziecka."
+        },
+        {
+            "date": "2026-11-27",
+            "title": "Andrzejki",
+            "description": "Dzień pełen magicznych zabaw, wróżb i andrzejkowych niespodzianek. Mile widziane stroje czarodziejów, wróżek i innych bajkowych postaci."
         },
         {
             "date": "2026-11-19",
