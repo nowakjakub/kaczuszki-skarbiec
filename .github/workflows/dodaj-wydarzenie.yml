@@ -1,5 +1,5 @@
 # Nowe wydarzenie w „Co nas czeka?”. Uruchomić może tylko właściciel repozytorium.
-name: Dodaj wydarzenie
+name: 3. Dodaj wydarzenie
 
 on:
   workflow_dispatch:

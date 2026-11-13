@@ -1,5 +1,5 @@
 # Zamknięcie zbiórki (+ opcjonalnie wydatek). Uruchomić może tylko właściciel repozytorium.
-name: Zamknij zbiórkę
+name: 4. Zamknij zbiórkę
 
 on:
   workflow_dispatch:

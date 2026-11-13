@@ -1,5 +1,5 @@
 # Pokazuje otwarte zbiórki z numerami (w podsumowaniu uruchomienia). Niczego nie zmienia.
-name: Lista zbiórek
+name: 5. Lista zbiórek
 
 on:
   workflow_dispatch:

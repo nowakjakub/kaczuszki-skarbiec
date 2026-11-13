@@ -1,5 +1,5 @@
 # Nowa zbiórka — dostaje kolejny wolny numer. Uruchomić może tylko właściciel repozytorium.
-name: Otwórz zbiórkę
+name: 2. Otwórz zbiórkę
 
 on:
   workflow_dispatch:
