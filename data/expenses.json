@@ -1,6 +1,12 @@
 {
     "expenses": [
         {
+            "date": "2026-11-19",
+            "what": "Spotkanie z alpakami",
+            "amount": 500.00,
+            "receipt": ""
+        },
+        {
             "date": "2026-11-16",
             "what": "Kino Przedszkole „Dzień Postaci z Bajek”",
             "amount": 375.00,
