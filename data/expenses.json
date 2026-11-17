@@ -1,6 +1,12 @@
 {
     "expenses": [
         {
+            "date": "2026-11-16",
+            "what": "Kino Przedszkole „Dzień Postaci z Bajek”",
+            "amount": 375.00,
+            "receipt": ""
+        },
+        {
             "date": "2026-11-03",
             "what": "Joga",
             "amount": 230.00,
